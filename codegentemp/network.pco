@@ -1,0 +1,24 @@
+# network
+# 2017-12-12 18:41:00Z
+
+# IO_0@[IOP=(1)][IoId=(0)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 0
+# IO_1@[IOP=(1)][IoId=(1)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 1
+# IO_3@[IOP=(1)][IoId=(3)] is reserved: SWDDebugEnabled
+dont_use_io iocell 1 3
+set_location "ClockBlock" clockblockcell -1 -1 0
+set_location "RECEIVE" logicalport -1 -1 3
+set_io "RECEIVE(0)" iocell 3 7
+set_io "IDLE_PIN(0)" iocell 0 7
+set_io "BUSY_PIN(0)" iocell 0 6
+set_io "COLLISION_PIN(0)" iocell 0 5
+set_location "\TIMER:TimerUDB:status_tc\" 1 3 0 0
+set_location "\TIMER:TimerUDB:sCTRLReg:SyncCtl:ctrlreg\" 0 2 6
+set_location "\TIMER:TimerUDB:rstSts:stsreg\" 1 3 4
+set_location "\TIMER:TimerUDB:sT32:timerdp:u0\" 1 2 2
+set_location "\TIMER:TimerUDB:sT32:timerdp:u1\" 0 2 2
+set_location "\TIMER:TimerUDB:sT32:timerdp:u2\" 0 3 2
+set_location "\TIMER:TimerUDB:sT32:timerdp:u3\" 1 3 2
+set_location "RX_INTERRUPT" interrupt -1 -1 7
+set_location "TIMER_INTERRUPT" interrupt -1 -1 0

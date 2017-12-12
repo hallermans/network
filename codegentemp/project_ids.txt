@@ -1,0 +1,11 @@
+C:\Users\hallermans\Documents\Fall2017\CE4920\tutorial.cydsn\tutorial.cyprj|cb07f2cc-71e0-4e77-88dd-b540eff177f4
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|5855ce7c-75ac-4d04-961a-85b6ef878e2b
+C:\Users\hallermans\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|46e818be-931b-493a-b6fe-b8b2d61ce193
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|34b6ad30-d062-4f21-8879-da9f7e54f784
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|848748b3-2d6e-452c-a73f-335556258d86
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|ef6aa7cd-df3a-4a65-a7f8-85fa6cabad86
+C:\Users\hallermans\Documents\Fall2017\CE4920\treadmill.cydsn\treadmill.cyprj|4266b619-4dcd-4429-828d-9097b322b143
+C:\Users\hallermans\Documents\PSoC Creator\Workspace01\CapSense_CSD_Design01.cydsn\CapSense_CSD_Design01.cyprj|2da2194e-b96b-482d-9fd9-aa7dc4b8d697
+C:\Program Files (x86)\Cypress\PSoC Creator\4.1\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|d25c2af2-20c4-4c8f-a3c9-30ae29df2cd3
+C:\Users\hallermans\Documents\PSoC Creator\Workspace01\Timer01.cydsn\Timer01.cyprj|59dccba3-456b-4610-92fd-709510b22cc5
+C:\Users\hallermans\Documents\Winter2017\CE4950\network.cydsn\network.cyprj|472eeb17-02e6-4ee8-b7c3-fe9c3e3ab268
