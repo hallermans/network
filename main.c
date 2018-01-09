@@ -11,7 +11,7 @@
 */
 #include "project.h"
 
-enum states {IDLE, BUSY_HIGH, BUSY_LOW, COLLISION};
+/*enum states {IDLE, BUSY_HIGH, BUSY_LOW, COLLISION};
 enum states currentState = IDLE;
 
 void changeState(enum states nextState) {
@@ -57,7 +57,7 @@ CY_ISR(TIMER_HANDLER) {
     else if (currentState==BUSY_HIGH) changeState(COLLISION);
     
     TIMER_ReadStatusRegister();
-}
+}*/
 
 int main(void)
 {
@@ -65,14 +65,48 @@ int main(void)
 
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
 
-    RX_INTERRUPT_StartEx(RX_HANDLER);
-    TIMER_INTERRUPT_StartEx(TIMER_HANDLER);
-    TIMER_Start();
+    //RX_INTERRUPT_StartEx(RX_HANDLER);
+    //TIMER_INTERRUPT_StartEx(TIMER_HANDLER);
+    //TIMER_Start();
+    
+    USBUART_Start(0, USBUART_5V_OPERATION);
+    while (USBUART_GetConfiguration()==0);
+    USBUART_CDC_Init();
+    
+    USBUART_PutString("Hello World\r\n");
     
 
     for(;;)
     {
         /* Place your application code here. */
+        //read the message from UART
+        char message[100];
+        int size = 0;
+        while (1) {
+            while (!USBUART_DataIsReady()); //wait for a character to be received
+            char c = USBUART_GetChar();
+            
+            if (c=='\r') {
+                USBUART_PutString("\r\n");
+                break;
+            }
+            else {
+                USBUART_PutChar(c);
+                message[size++] = c;
+            }
+        }
+        
+        //Write the message to TX_PIN
+       for (int i = 0; i<size; i++) {
+            uint8 c = message[i] | 0x80; //MSB is always high
+            
+            for (int b = 7; b>=0; b--) {
+                TX_PIN_Write((c>>b) & 0x01);
+                CyDelayUs(500);
+                TX_PIN_Write(0);
+                CyDelayUs(500);
+            }
+        }
     }
 }
 
