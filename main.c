@@ -10,9 +10,14 @@
  * ========================================
 */
 #include "project.h"
+#include <stdlib.h>
+#include <stdbool.h>
 
-/*enum states {IDLE, BUSY_HIGH, BUSY_LOW, COLLISION};
+int writeMessage(char *message, int size);
+
+enum states {IDLE, BUSY_HIGH, BUSY_LOW, COLLISION};
 enum states currentState = IDLE;
+bool collisionOccured = false;
 
 void changeState(enum states nextState) {
     if (nextState==IDLE) {
@@ -38,6 +43,7 @@ void changeState(enum states nextState) {
         IDLE_PIN_Write(0);
         BUSY_PIN_Write(0);
         COLLISION_PIN_Write(1);
+        collisionOccured = true;
     }
     
     currentState = nextState;
@@ -56,8 +62,8 @@ CY_ISR(TIMER_HANDLER) {
     if (currentState==BUSY_LOW) changeState(IDLE);
     else if (currentState==BUSY_HIGH) changeState(COLLISION);
     
-    TIMER_ReadStatusRegister();
-}*/
+    TIMER_ReadStatusRegister(); //clear the timer interrupt
+}
 
 int main(void)
 {
@@ -65,9 +71,9 @@ int main(void)
 
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
 
-    //RX_INTERRUPT_StartEx(RX_HANDLER);
-    //TIMER_INTERRUPT_StartEx(TIMER_HANDLER);
-    //TIMER_Start();
+    RX_INTERRUPT_StartEx(RX_HANDLER);
+    TIMER_INTERRUPT_StartEx(TIMER_HANDLER);
+    TIMER_Start();
     
     USBUART_Start(0, USBUART_5V_OPERATION);
     while (USBUART_GetConfiguration()==0);
@@ -97,17 +103,37 @@ int main(void)
         }
         
         //Write the message to TX_PIN
-       for (int i = 0; i<size; i++) {
-            uint8 c = message[i] | 0x80; //MSB is always high
-            
-            for (int b = 7; b>=0; b--) {
-                TX_PIN_Write((c>>b) & 0x01);
-                CyDelayUs(500);
-                TX_PIN_Write(0);
-                CyDelayUs(500);
-            }
+        bool rc = writeMessage(message, size);
+        while (rc) {
+            collisionOccured = false;
+            CyDelay(rand()%1000);
+            rc = writeMessage(message, size);
         }
     }
+}
+
+/*
+ * Write message to TX_PIN
+ * MSB is always set to 1
+ * Returns 0 if succesful, 1 if collision
+ */
+int writeMessage(char *message, int size) {
+    while (currentState != IDLE);
+    
+    for (int i = 0; i<size; i++) {
+        uint8 c = message[i] | 0x80; //MSB is always high
+        
+        for (int b = 7; b>=0; b--) {
+            if (collisionOccured) return 1;
+            
+            TX_PIN_Write((c>>b) & 0x01);
+            CyDelayUs(500);
+            TX_PIN_Write(0);
+            CyDelayUs(500);
+        }
+    }
+    
+    return 0;
 }
 
 /* [] END OF FILE */

@@ -2,7 +2,7 @@
 --	Conversion of network.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue Jan 09 10:48:05 2018
+--	Tue Jan 16 10:22:48 2018
 --
 
 USE cypress.cypress.all;
