@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: TIMER_INTERRUPT.c  
+* File Name: RX_PIN_INTERRUPT.c  
 * Version 1.70
 *
 *  Description:
@@ -18,15 +18,15 @@
 
 #include <cydevice_trm.h>
 #include <CyLib.h>
-#include <TIMER_INTERRUPT.h>
+#include <RX_PIN_INTERRUPT.h>
 #include "cyapicallbacks.h"
 
-#if !defined(TIMER_INTERRUPT__REMOVED) /* Check for removal by optimization */
+#if !defined(RX_PIN_INTERRUPT__REMOVED) /* Check for removal by optimization */
 
 /*******************************************************************************
 *  Place your includes, defines and code here 
 ********************************************************************************/
-/* `#START TIMER_INTERRUPT_intc` */
+/* `#START RX_PIN_INTERRUPT_intc` */
 
 /* `#END` */
 
@@ -42,7 +42,7 @@ CY_ISR_PROTO(IntDefaultHandler);
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_Start
+* Function Name: RX_PIN_INTERRUPT_Start
 ********************************************************************************
 *
 * Summary:
@@ -58,24 +58,24 @@ CY_ISR_PROTO(IntDefaultHandler);
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_Start(void)
+void RX_PIN_INTERRUPT_Start(void)
 {
     /* For all we know the interrupt is active. */
-    TIMER_INTERRUPT_Disable();
+    RX_PIN_INTERRUPT_Disable();
 
-    /* Set the ISR to point to the TIMER_INTERRUPT Interrupt. */
-    TIMER_INTERRUPT_SetVector(&TIMER_INTERRUPT_Interrupt);
+    /* Set the ISR to point to the RX_PIN_INTERRUPT Interrupt. */
+    RX_PIN_INTERRUPT_SetVector(&RX_PIN_INTERRUPT_Interrupt);
 
     /* Set the priority. */
-    TIMER_INTERRUPT_SetPriority((uint8)TIMER_INTERRUPT_INTC_PRIOR_NUMBER);
+    RX_PIN_INTERRUPT_SetPriority((uint8)RX_PIN_INTERRUPT_INTC_PRIOR_NUMBER);
 
     /* Enable it. */
-    TIMER_INTERRUPT_Enable();
+    RX_PIN_INTERRUPT_Enable();
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_StartEx
+* Function Name: RX_PIN_INTERRUPT_StartEx
 ********************************************************************************
 *
 * Summary:
@@ -101,24 +101,24 @@ void TIMER_INTERRUPT_Start(void)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_StartEx(cyisraddress address)
+void RX_PIN_INTERRUPT_StartEx(cyisraddress address)
 {
     /* For all we know the interrupt is active. */
-    TIMER_INTERRUPT_Disable();
+    RX_PIN_INTERRUPT_Disable();
 
-    /* Set the ISR to point to the TIMER_INTERRUPT Interrupt. */
-    TIMER_INTERRUPT_SetVector(address);
+    /* Set the ISR to point to the RX_PIN_INTERRUPT Interrupt. */
+    RX_PIN_INTERRUPT_SetVector(address);
 
     /* Set the priority. */
-    TIMER_INTERRUPT_SetPriority((uint8)TIMER_INTERRUPT_INTC_PRIOR_NUMBER);
+    RX_PIN_INTERRUPT_SetPriority((uint8)RX_PIN_INTERRUPT_INTC_PRIOR_NUMBER);
 
     /* Enable it. */
-    TIMER_INTERRUPT_Enable();
+    RX_PIN_INTERRUPT_Enable();
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_Stop
+* Function Name: RX_PIN_INTERRUPT_Stop
 ********************************************************************************
 *
 * Summary:
@@ -131,22 +131,22 @@ void TIMER_INTERRUPT_StartEx(cyisraddress address)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_Stop(void)
+void RX_PIN_INTERRUPT_Stop(void)
 {
     /* Disable this interrupt. */
-    TIMER_INTERRUPT_Disable();
+    RX_PIN_INTERRUPT_Disable();
 
     /* Set the ISR to point to the passive one. */
-    TIMER_INTERRUPT_SetVector(&IntDefaultHandler);
+    RX_PIN_INTERRUPT_SetVector(&IntDefaultHandler);
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_Interrupt
+* Function Name: RX_PIN_INTERRUPT_Interrupt
 ********************************************************************************
 *
 * Summary:
-*   The default Interrupt Service Routine for TIMER_INTERRUPT.
+*   The default Interrupt Service Routine for RX_PIN_INTERRUPT.
 *
 *   Add custom code between the coments to keep the next version of this file
 *   from over writting your code.
@@ -157,27 +157,27 @@ void TIMER_INTERRUPT_Stop(void)
 *   None
 *
 *******************************************************************************/
-CY_ISR(TIMER_INTERRUPT_Interrupt)
+CY_ISR(RX_PIN_INTERRUPT_Interrupt)
 {
-    #ifdef TIMER_INTERRUPT_INTERRUPT_INTERRUPT_CALLBACK
-        TIMER_INTERRUPT_Interrupt_InterruptCallback();
-    #endif /* TIMER_INTERRUPT_INTERRUPT_INTERRUPT_CALLBACK */ 
+    #ifdef RX_PIN_INTERRUPT_INTERRUPT_INTERRUPT_CALLBACK
+        RX_PIN_INTERRUPT_Interrupt_InterruptCallback();
+    #endif /* RX_PIN_INTERRUPT_INTERRUPT_INTERRUPT_CALLBACK */ 
 
     /*  Place your Interrupt code here. */
-    /* `#START TIMER_INTERRUPT_Interrupt` */
+    /* `#START RX_PIN_INTERRUPT_Interrupt` */
 
     /* `#END` */
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_SetVector
+* Function Name: RX_PIN_INTERRUPT_SetVector
 ********************************************************************************
 *
 * Summary:
-*   Change the ISR vector for the Interrupt. Note calling TIMER_INTERRUPT_Start
+*   Change the ISR vector for the Interrupt. Note calling RX_PIN_INTERRUPT_Start
 *   will override any effect this method would have had. To set the vector 
-*   before the component has been started use TIMER_INTERRUPT_StartEx instead.
+*   before the component has been started use RX_PIN_INTERRUPT_StartEx instead.
 * 
 *   When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
 *   used to provide consistent definition across compilers:
@@ -197,18 +197,18 @@ CY_ISR(TIMER_INTERRUPT_Interrupt)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_SetVector(cyisraddress address)
+void RX_PIN_INTERRUPT_SetVector(cyisraddress address)
 {
     cyisraddress * ramVectorTable;
 
     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
 
-    ramVectorTable[CYINT_IRQ_BASE + (uint32)TIMER_INTERRUPT__INTC_NUMBER] = address;
+    ramVectorTable[CYINT_IRQ_BASE + (uint32)RX_PIN_INTERRUPT__INTC_NUMBER] = address;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_GetVector
+* Function Name: RX_PIN_INTERRUPT_GetVector
 ********************************************************************************
 *
 * Summary:
@@ -221,26 +221,26 @@ void TIMER_INTERRUPT_SetVector(cyisraddress address)
 *   Address of the ISR in the interrupt vector table.
 *
 *******************************************************************************/
-cyisraddress TIMER_INTERRUPT_GetVector(void)
+cyisraddress RX_PIN_INTERRUPT_GetVector(void)
 {
     cyisraddress * ramVectorTable;
 
     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
 
-    return ramVectorTable[CYINT_IRQ_BASE + (uint32)TIMER_INTERRUPT__INTC_NUMBER];
+    return ramVectorTable[CYINT_IRQ_BASE + (uint32)RX_PIN_INTERRUPT__INTC_NUMBER];
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_SetPriority
+* Function Name: RX_PIN_INTERRUPT_SetPriority
 ********************************************************************************
 *
 * Summary:
 *   Sets the Priority of the Interrupt. 
 *
-*   Note calling TIMER_INTERRUPT_Start or TIMER_INTERRUPT_StartEx will 
+*   Note calling RX_PIN_INTERRUPT_Start or RX_PIN_INTERRUPT_StartEx will 
 *   override any effect this API would have had. This API should only be called
-*   after TIMER_INTERRUPT_Start or TIMER_INTERRUPT_StartEx has been called. 
+*   after RX_PIN_INTERRUPT_Start or RX_PIN_INTERRUPT_StartEx has been called. 
 *   To set the initial priority for the component, use the Design-Wide Resources
 *   Interrupt Editor.
 *
@@ -255,14 +255,14 @@ cyisraddress TIMER_INTERRUPT_GetVector(void)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_SetPriority(uint8 priority)
+void RX_PIN_INTERRUPT_SetPriority(uint8 priority)
 {
-    *TIMER_INTERRUPT_INTC_PRIOR = priority << 5;
+    *RX_PIN_INTERRUPT_INTC_PRIOR = priority << 5;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_GetPriority
+* Function Name: RX_PIN_INTERRUPT_GetPriority
 ********************************************************************************
 *
 * Summary:
@@ -277,19 +277,19 @@ void TIMER_INTERRUPT_SetPriority(uint8 priority)
 *    PSoC 4: Priority is from 0 to 3.
 *
 *******************************************************************************/
-uint8 TIMER_INTERRUPT_GetPriority(void)
+uint8 RX_PIN_INTERRUPT_GetPriority(void)
 {
     uint8 priority;
 
 
-    priority = *TIMER_INTERRUPT_INTC_PRIOR >> 5;
+    priority = *RX_PIN_INTERRUPT_INTC_PRIOR >> 5;
 
     return priority;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_Enable
+* Function Name: RX_PIN_INTERRUPT_Enable
 ********************************************************************************
 *
 * Summary:
@@ -304,15 +304,15 @@ uint8 TIMER_INTERRUPT_GetPriority(void)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_Enable(void)
+void RX_PIN_INTERRUPT_Enable(void)
 {
     /* Enable the general interrupt. */
-    *TIMER_INTERRUPT_INTC_SET_EN = TIMER_INTERRUPT__INTC_MASK;
+    *RX_PIN_INTERRUPT_INTC_SET_EN = RX_PIN_INTERRUPT__INTC_MASK;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_GetState
+* Function Name: RX_PIN_INTERRUPT_GetState
 ********************************************************************************
 *
 * Summary:
@@ -325,15 +325,15 @@ void TIMER_INTERRUPT_Enable(void)
 *   1 if enabled, 0 if disabled.
 *
 *******************************************************************************/
-uint8 TIMER_INTERRUPT_GetState(void)
+uint8 RX_PIN_INTERRUPT_GetState(void)
 {
     /* Get the state of the general interrupt. */
-    return ((*TIMER_INTERRUPT_INTC_SET_EN & (uint32)TIMER_INTERRUPT__INTC_MASK) != 0u) ? 1u:0u;
+    return ((*RX_PIN_INTERRUPT_INTC_SET_EN & (uint32)RX_PIN_INTERRUPT__INTC_MASK) != 0u) ? 1u:0u;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_Disable
+* Function Name: RX_PIN_INTERRUPT_Disable
 ********************************************************************************
 *
 * Summary:
@@ -346,15 +346,15 @@ uint8 TIMER_INTERRUPT_GetState(void)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_Disable(void)
+void RX_PIN_INTERRUPT_Disable(void)
 {
     /* Disable the general interrupt. */
-    *TIMER_INTERRUPT_INTC_CLR_EN = TIMER_INTERRUPT__INTC_MASK;
+    *RX_PIN_INTERRUPT_INTC_CLR_EN = RX_PIN_INTERRUPT__INTC_MASK;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_SetPending
+* Function Name: RX_PIN_INTERRUPT_SetPending
 ********************************************************************************
 *
 * Summary:
@@ -373,14 +373,14 @@ void TIMER_INTERRUPT_Disable(void)
 *   interrupts).
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_SetPending(void)
+void RX_PIN_INTERRUPT_SetPending(void)
 {
-    *TIMER_INTERRUPT_INTC_SET_PD = TIMER_INTERRUPT__INTC_MASK;
+    *RX_PIN_INTERRUPT_INTC_SET_PD = RX_PIN_INTERRUPT__INTC_MASK;
 }
 
 
 /*******************************************************************************
-* Function Name: TIMER_INTERRUPT_ClearPending
+* Function Name: RX_PIN_INTERRUPT_ClearPending
 ********************************************************************************
 *
 * Summary:
@@ -398,9 +398,9 @@ void TIMER_INTERRUPT_SetPending(void)
 *   None
 *
 *******************************************************************************/
-void TIMER_INTERRUPT_ClearPending(void)
+void RX_PIN_INTERRUPT_ClearPending(void)
 {
-    *TIMER_INTERRUPT_INTC_CLR_PD = TIMER_INTERRUPT__INTC_MASK;
+    *RX_PIN_INTERRUPT_INTC_CLR_PD = RX_PIN_INTERRUPT__INTC_MASK;
 }
 
 #endif /* End check for removal by optimization */

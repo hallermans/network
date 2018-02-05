@@ -1,156 +1,263 @@
-net \TIMER:TimerUDB:per_zero\
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.z0_comb"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:datapath.z0_comb==>:udb@[UDB=(1,3)]:dp_wrapper:output_permute.z0_comb"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:output_permute.outs_2==>Stub-:udbswitch@[UDB=(0,3)][side=top]:v81"
-	switch "OStub-:udbswitch@[UDB=(0,3)][side=top]:v81"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:81,92"
-	switch ":hvswitch@[UDB=(1,2)][side=left]:hseg_92_b"
-	switch ":udbswitch@[UDB=(0,2)][side=top]:73,92_f"
-	switch "IStub-:udbswitch@[UDB=(0,2)][side=top]:v73"
-	switch "Stub-:udbswitch@[UDB=(0,2)][side=top]:v73==>:udb@[UDB=(1,2)]:dp_wrapper:input_permute.ina_4"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(1,2)]:dp_wrapper:datapath.cs_addr_0"
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cs_addr_0"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:81,47"
-	switch ":hvswitch@[UDB=(1,2)][side=left]:hseg_47_b"
-	switch ":udbswitch@[UDB=(0,2)][side=top]:64,47_f"
-	switch "IStub-:udbswitch@[UDB=(0,2)][side=top]:v64"
-	switch "Stub-:udbswitch@[UDB=(0,2)][side=top]:v64==>:udb@[UDB=(0,2)]:dp_wrapper:input_permute.ina_0"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.cs_addr_0"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cs_addr_0"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:64,47_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v64"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v64==>:udb@[UDB=(0,3)]:dp_wrapper:input_permute.ina_0"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.cs_addr_0"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cs_addr_0"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:73,92_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v73"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v73==>:udb@[UDB=(1,3)]:dp_wrapper:input_permute.ina_4"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.cs_addr_0"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cs_addr_0"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:15,47_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v15"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v15==>:udb@[UDB=(1,3)]:pld0:input_permute.input_7"
-	switch ":udb@[UDB=(1,3)]:pld0:input_permute.mc0_main_1==>:udb@[UDB=(1,3)]:pld0:mc0.main_1"
-	term   ":udb@[UDB=(1,3)]:pld0:mc0.main_1"
-end \TIMER:TimerUDB:per_zero\
-net \TIMER:TimerUDB:sT32:timerdp:u0.z0__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.z0"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.z0==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.z0i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.z0i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.z0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.co_msb__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.co_msb"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.ci"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ci"
-end \TIMER:TimerUDB:sT32:timerdp:u0.co_msb__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.z0__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.z0"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.z0==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.z0i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.z0i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.z0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.co_msb__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.co_msb"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.ci"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ci"
-end \TIMER:TimerUDB:sT32:timerdp:u1.co_msb__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.z0__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.z0"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.z0==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.z0i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.z0i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.z0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.co_msb__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.co_msb"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.ci"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.ci"
-end \TIMER:TimerUDB:sT32:timerdp:u2.co_msb__sig\
-net \TIMER:TimerUDB:control_7\
-	term   ":udb@[UDB=(0,2)]:controlcell.control_7"
-	switch ":udb@[UDB=(0,2)]:controlcell.control_7==>:udb@[UDB=(0,2)]:controlcell_control_7_permute.in_0"
-	switch ":udb@[UDB=(0,2)]:controlcell_control_7_permute.controlcell_control_7==>Stub-:udbswitch@[UDB=(0,2)][side=top]:v118"
-	switch "OStub-:udbswitch@[UDB=(0,2)][side=top]:v118"
-	switch ":udbswitch@[UDB=(0,2)][side=top]:118,94"
-	switch ":udbswitch@[UDB=(0,2)][side=top]:65,94_f"
-	switch "IStub-:udbswitch@[UDB=(0,2)][side=top]:v65"
-	switch "Stub-:udbswitch@[UDB=(0,2)][side=top]:v65==>:udb@[UDB=(1,2)]:dp_wrapper:input_permute.ina_0"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(1,2)]:dp_wrapper:datapath.cs_addr_1"
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cs_addr_1"
-	switch ":udbswitch@[UDB=(0,2)][side=top]:118,5"
-	switch ":udbswitch@[UDB=(0,2)][side=top]:72,5_f"
-	switch "IStub-:udbswitch@[UDB=(0,2)][side=top]:v72"
-	switch "Stub-:udbswitch@[UDB=(0,2)][side=top]:v72==>:udb@[UDB=(0,2)]:dp_wrapper:input_permute.ina_4"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.cs_addr_1"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cs_addr_1"
-	switch ":hvswitch@[UDB=(1,2)][side=left]:hseg_5_f"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:72,5_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v72"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v72==>:udb@[UDB=(0,3)]:dp_wrapper:input_permute.ina_4"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.cs_addr_1"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cs_addr_1"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:9,5_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v9"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v9==>:udb@[UDB=(1,3)]:pld0:input_permute.input_4"
-	switch ":udb@[UDB=(1,3)]:pld0:input_permute.mc0_main_0==>:udb@[UDB=(1,3)]:pld0:mc0.main_0"
-	term   ":udb@[UDB=(1,3)]:pld0:mc0.main_0"
-	switch ":hvswitch@[UDB=(1,2)][side=left]:hseg_94_f"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:65,94_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v65"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v65==>:udb@[UDB=(1,3)]:dp_wrapper:input_permute.ina_0"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.cs_addr_1"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cs_addr_1"
-end \TIMER:TimerUDB:control_7\
-net \TIMER:TimerUDB:status_tc\
-	term   ":udb@[UDB=(1,3)]:pld0:mc0.q"
-	switch ":udb@[UDB=(1,3)]:pld0:mc0.q==>:udb@[UDB=(1,3)]:pld0:output_permute0.q_0"
-	switch ":udb@[UDB=(1,3)]:pld0:output_permute0.output_0==>Stub-:udbswitch@[UDB=(0,3)][side=top]:v25"
-	switch "OStub-:udbswitch@[UDB=(0,3)][side=top]:v25"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:25,68"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:89,68_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v89"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v89==>:udb@[UDB=(1,3)]:statusicell.status_0"
-	term   ":udb@[UDB=(1,3)]:statusicell.status_0"
-end \TIMER:TimerUDB:status_tc\
+net \RX_TIMER:TimerUDB:per_zero\
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.z0_comb"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:datapath.z0_comb==>:udb@[UDB=(2,1)]:dp_wrapper:output_permute.z0_comb"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:output_permute.outs_4==>Stub-:udbswitch@[UDB=(2,1)][side=top]:v84"
+	switch "OStub-:udbswitch@[UDB=(2,1)][side=top]:v84"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:84,11"
+	switch ":hvswitch@[UDB=(2,0)][side=left]:hseg_11_b"
+	switch ":udbswitch@[UDB=(2,0)][side=top]:74,11_f"
+	switch "IStub-:udbswitch@[UDB=(2,0)][side=top]:v74"
+	switch "Stub-:udbswitch@[UDB=(2,0)][side=top]:v74==>:udb@[UDB=(2,0)]:dp_wrapper:input_permute.ina_5"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(2,0)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cs_addr_0"
+	switch ":udbswitch@[UDB=(2,0)][side=top]:75,11_f"
+	switch "IStub-:udbswitch@[UDB=(2,0)][side=top]:v75"
+	switch "Stub-:udbswitch@[UDB=(2,0)][side=top]:v75==>:udb@[UDB=(3,0)]:dp_wrapper:input_permute.ina_5"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cs_addr_0"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:75,11_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v75"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v75==>:udb@[UDB=(3,1)]:dp_wrapper:input_permute.ina_5"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cs_addr_0"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:20,11_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v20"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v20==>:udb@[UDB=(2,1)]:pld0:input_permute.input_10"
+	switch ":udb@[UDB=(2,1)]:pld0:input_permute.mc0_main_1==>:udb@[UDB=(2,1)]:pld0:mc0.main_1"
+	term   ":udb@[UDB=(2,1)]:pld0:mc0.main_1"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:74,11_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v74"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v74==>:udb@[UDB=(2,1)]:dp_wrapper:input_permute.ina_5"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cs_addr_0"
+end \RX_TIMER:TimerUDB:per_zero\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.z0__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.z0"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.z0==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.z0i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.z0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.z0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.co_msb__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.co_msb"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.ci"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ci"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.co_msb__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.z0__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.z0"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.z0==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.z0i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.z0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.z0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.co_msb__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.co_msb"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.ci"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ci"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.co_msb__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.z0__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.z0"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.z0==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.z0i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.z0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.z0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.co_msb__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.co_msb"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.ci"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.ci"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.co_msb__sig\
+net \TX_TIMER:TimerUDB:per_zero\
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.z0_comb"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:datapath.z0_comb==>:udb@[UDB=(2,2)]:dp_wrapper:output_permute.z0_comb"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:output_permute.outs_5==>Stub-:udbswitch@[UDB=(2,2)][side=top]:v86"
+	switch "OStub-:udbswitch@[UDB=(2,2)][side=top]:v86"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:86,27"
+	switch ":hvswitch@[UDB=(2,2)][side=left]:hseg_27_f"
+	switch ":udbswitch@[UDB=(2,3)][side=top]:70,27_f"
+	switch "IStub-:udbswitch@[UDB=(2,3)][side=top]:v70"
+	switch "Stub-:udbswitch@[UDB=(2,3)][side=top]:v70==>:udb@[UDB=(2,3)]:dp_wrapper:input_permute.ina_3"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(2,3)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cs_addr_0"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:86,49"
+	switch ":hvswitch@[UDB=(2,2)][side=left]:hseg_49_f"
+	switch ":udbswitch@[UDB=(2,3)][side=top]:65,49_f"
+	switch "IStub-:udbswitch@[UDB=(2,3)][side=top]:v65"
+	switch "Stub-:udbswitch@[UDB=(2,3)][side=top]:v65==>:udb@[UDB=(3,3)]:dp_wrapper:input_permute.ina_0"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cs_addr_0"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:65,49_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v65"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v65==>:udb@[UDB=(3,2)]:dp_wrapper:input_permute.ina_0"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cs_addr_0"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:6,49_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v6"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v6==>:udb@[UDB=(2,2)]:pld0:input_permute.input_3"
+	switch ":udb@[UDB=(2,2)]:pld0:input_permute.mc3_main_1==>:udb@[UDB=(2,2)]:pld0:mc3.main_1"
+	term   ":udb@[UDB=(2,2)]:pld0:mc3.main_1"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:70,27_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v70"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v70==>:udb@[UDB=(2,2)]:dp_wrapper:input_permute.ina_3"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:input_permute.cs_addr_0==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.cs_addr_0"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cs_addr_0"
+end \TX_TIMER:TimerUDB:per_zero\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.z0__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.z0"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.z0==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.z0i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.z0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.z0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.co_msb__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.co_msb"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.ci"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ci"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.co_msb__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.z0__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.z0"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.z0==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.z0i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.z0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.z0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.co_msb__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.co_msb"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.ci"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ci"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.co_msb__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.z0__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.z0"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.z0==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.z0i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.z0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.z0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.co_msb__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.co_msb"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.co_msb==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.ci"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.ci"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.co_msb__sig\
+net \RX_TIMER:TimerUDB:control_7\
+	term   ":udb@[UDB=(3,0)]:controlcell.control_7"
+	switch ":udb@[UDB=(3,0)]:controlcell.control_7==>:udb@[UDB=(3,0)]:controlcell_control_7_permute.in_0"
+	switch ":udb@[UDB=(3,0)]:controlcell_control_7_permute.controlcell_control_7==>Stub-:udbswitch@[UDB=(2,0)][side=top]:v119"
+	switch "OStub-:udbswitch@[UDB=(2,0)][side=top]:v119"
+	switch ":udbswitch@[UDB=(2,0)][side=top]:119,70"
+	switch ":udbswitch@[UDB=(2,0)][side=top]:70,70_f"
+	switch "IStub-:udbswitch@[UDB=(2,0)][side=top]:v70"
+	switch "Stub-:udbswitch@[UDB=(2,0)][side=top]:v70==>:udb@[UDB=(2,0)]:dp_wrapper:input_permute.ina_3"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(2,0)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cs_addr_1"
+	switch ":udbswitch@[UDB=(2,0)][side=top]:71,70_f"
+	switch "IStub-:udbswitch@[UDB=(2,0)][side=top]:v71"
+	switch "Stub-:udbswitch@[UDB=(2,0)][side=top]:v71==>:udb@[UDB=(3,0)]:dp_wrapper:input_permute.ina_3"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cs_addr_1"
+	switch ":hvswitch@[UDB=(2,0)][side=left]:hseg_70_f"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:71,70_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v71"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v71==>:udb@[UDB=(3,1)]:dp_wrapper:input_permute.ina_3"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cs_addr_1"
+	switch ":udbswitch@[UDB=(2,0)][side=top]:119,2"
+	switch ":hvswitch@[UDB=(2,0)][side=left]:hseg_2_f"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:0,2_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v0"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v0==>:udb@[UDB=(2,1)]:pld0:input_permute.input_0"
+	switch ":udb@[UDB=(2,1)]:pld0:input_permute.mc0_main_0==>:udb@[UDB=(2,1)]:pld0:mc0.main_0"
+	term   ":udb@[UDB=(2,1)]:pld0:mc0.main_0"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:70,70_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v70"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v70==>:udb@[UDB=(2,1)]:dp_wrapper:input_permute.ina_3"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cs_addr_1"
+end \RX_TIMER:TimerUDB:control_7\
+net \TX_TIMER:TimerUDB:control_7\
+	term   ":udb@[UDB=(2,3)]:controlcell.control_7"
+	switch ":udb@[UDB=(2,3)]:controlcell.control_7==>:udb@[UDB=(2,3)]:controlcell_control_7_permute.in_0"
+	switch ":udb@[UDB=(2,3)]:controlcell_control_7_permute.controlcell_control_7==>Stub-:udbswitch@[UDB=(2,3)][side=top]:v118"
+	switch "OStub-:udbswitch@[UDB=(2,3)][side=top]:v118"
+	switch ":udbswitch@[UDB=(2,3)][side=top]:118,5"
+	switch ":udbswitch@[UDB=(2,3)][side=top]:72,5_f"
+	switch "IStub-:udbswitch@[UDB=(2,3)][side=top]:v72"
+	switch "Stub-:udbswitch@[UDB=(2,3)][side=top]:v72==>:udb@[UDB=(2,3)]:dp_wrapper:input_permute.ina_4"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(2,3)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cs_addr_1"
+	switch ":udbswitch@[UDB=(2,3)][side=top]:73,5_f"
+	switch "IStub-:udbswitch@[UDB=(2,3)][side=top]:v73"
+	switch "Stub-:udbswitch@[UDB=(2,3)][side=top]:v73==>:udb@[UDB=(3,3)]:dp_wrapper:input_permute.ina_4"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cs_addr_1"
+	switch ":hvswitch@[UDB=(2,2)][side=left]:hseg_5_b"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:73,5_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v73"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v73==>:udb@[UDB=(3,2)]:dp_wrapper:input_permute.ina_4"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cs_addr_1"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:22,5_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v22"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v22==>:udb@[UDB=(2,2)]:pld0:input_permute.input_11"
+	switch ":udb@[UDB=(2,2)]:pld0:input_permute.mc3_main_0==>:udb@[UDB=(2,2)]:pld0:mc3.main_0"
+	term   ":udb@[UDB=(2,2)]:pld0:mc3.main_0"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:72,5_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v72"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v72==>:udb@[UDB=(2,2)]:dp_wrapper:input_permute.ina_4"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:input_permute.cs_addr_1==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.cs_addr_1"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cs_addr_1"
+end \TX_TIMER:TimerUDB:control_7\
+net \TX_TIMER:TimerUDB:status_tc\
+	term   ":udb@[UDB=(2,2)]:pld0:mc3.q"
+	switch ":udb@[UDB=(2,2)]:pld0:mc3.q==>:udb@[UDB=(2,2)]:pld0:output_permute3.q_3"
+	switch ":udb@[UDB=(2,2)]:pld0:output_permute3.output_3==>Stub-:udbswitch@[UDB=(2,2)][side=top]:v30"
+	switch "OStub-:udbswitch@[UDB=(2,2)][side=top]:v30"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:30,43"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:88,43_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v88"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v88==>:udb@[UDB=(2,2)]:statusicell.status_0"
+	term   ":udb@[UDB=(2,2)]:statusicell.status_0"
+end \TX_TIMER:TimerUDB:status_tc\
+net \RX_TIMER:TimerUDB:status_tc\
+	term   ":udb@[UDB=(2,1)]:pld0:mc0.q"
+	switch ":udb@[UDB=(2,1)]:pld0:mc0.q==>:udb@[UDB=(2,1)]:pld0:output_permute3.q_0"
+	switch ":udb@[UDB=(2,1)]:pld0:output_permute3.output_3==>Stub-:udbswitch@[UDB=(2,1)][side=top]:v30"
+	switch "OStub-:udbswitch@[UDB=(2,1)][side=top]:v30"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:30,43"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:88,43_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v88"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v88==>:udb@[UDB=(2,1)]:statusicell.status_0"
+	term   ":udb@[UDB=(2,1)]:statusicell.status_0"
+end \RX_TIMER:TimerUDB:status_tc\
 net ClockBlock_BUS_CLK
 	term   ":clockblockcell.clk_bus_glb"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(0,2)]:clockreset:clk_sc_mux.in_9"
-	switch ":udb@[UDB=(0,2)]:clockreset:clk_sc_mux.sc_clk==>:udb@[UDB=(0,2)]:controlcell.clock"
-	term   ":udb@[UDB=(0,2)]:controlcell.clock"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(0,2)]:controlcell.busclk"
-	term   ":udb@[UDB=(0,2)]:controlcell.busclk"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(1,3)]:clockreset:clk_sc_mux.in_9"
-	switch ":udb@[UDB=(1,3)]:clockreset:clk_sc_mux.sc_clk==>:udb@[UDB=(1,3)]:statusicell.clock"
-	term   ":udb@[UDB=(1,3)]:statusicell.clock"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(1,2)]:clockreset:clk_dp_mux.in_9"
-	switch ":udb@[UDB=(1,2)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(1,2)]:dp_wrapper:datapath.clock"
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.clock"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(1,2)]:dp_wrapper:datapath.busclk"
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.busclk"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(0,2)]:clockreset:clk_dp_mux.in_9"
-	switch ":udb@[UDB=(0,2)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.clock"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.clock"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.busclk"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.busclk"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(0,3)]:clockreset:clk_dp_mux.in_9"
-	switch ":udb@[UDB=(0,3)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.clock"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.clock"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.busclk"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.busclk"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(1,3)]:clockreset:clk_dp_mux.in_9"
-	switch ":udb@[UDB=(1,3)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.clock"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.clock"
-	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.busclk"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,0)]:clockreset:clk_sc_mux.in_9"
+	switch ":udb@[UDB=(3,0)]:clockreset:clk_sc_mux.sc_clk==>:udb@[UDB=(3,0)]:controlcell.clock"
+	term   ":udb@[UDB=(3,0)]:controlcell.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,0)]:controlcell.busclk"
+	term   ":udb@[UDB=(3,0)]:controlcell.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,1)]:clockreset:clk_sc_mux.in_9"
+	switch ":udb@[UDB=(2,1)]:clockreset:clk_sc_mux.sc_clk==>:udb@[UDB=(2,1)]:statusicell.clock"
+	term   ":udb@[UDB=(2,1)]:statusicell.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,0)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(2,0)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(2,0)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,0)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,0)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(3,0)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,1)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(3,1)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,1)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(2,1)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.busclk"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_7.clock"
 	term   ":interrupt_7.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_0.clock"
 	term   ":interrupt_0.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_12.clock"
 	term   ":interrupt_12.clock"
+	switch ":clockblockcell.clk_bus_glb==>:interrupt_4.clock"
+	term   ":interrupt_4.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_3.clock"
 	term   ":interrupt_3.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_2.clock"
 	term   ":interrupt_2.clock"
-	switch ":clockblockcell.clk_bus_glb==>:interrupt_1.clock"
-	term   ":interrupt_1.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_24.clock"
 	term   ":interrupt_24.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_23.clock"
@@ -159,6 +266,36 @@ net ClockBlock_BUS_CLK
 	term   ":interrupt_22.clock"
 	switch ":clockblockcell.clk_bus_glb==>:interrupt_21.clock"
 	term   ":interrupt_21.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,3)]:clockreset:clk_sc_mux.in_9"
+	switch ":udb@[UDB=(2,3)]:clockreset:clk_sc_mux.sc_clk==>:udb@[UDB=(2,3)]:controlcell.clock"
+	term   ":udb@[UDB=(2,3)]:controlcell.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,3)]:controlcell.busclk"
+	term   ":udb@[UDB=(2,3)]:controlcell.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,2)]:clockreset:clk_sc_mux.in_9"
+	switch ":udb@[UDB=(2,2)]:clockreset:clk_sc_mux.sc_clk==>:udb@[UDB=(2,2)]:statusicell.clock"
+	term   ":udb@[UDB=(2,2)]:statusicell.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,3)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(2,3)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(2,3)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,3)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,3)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(3,3)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,2)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(3,2)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,2)]:clockreset:clk_dp_mux.in_9"
+	switch ":udb@[UDB=(2,2)]:clockreset:clk_dp_mux.dp_clk==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.clock"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.clock"
+	switch ":clockblockcell.clk_bus_glb==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.busclk"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.busclk"
+	switch ":clockblockcell.clk_bus_glb==>:interrupt_1.clock"
+	term   ":interrupt_1.clock"
 end ClockBlock_BUS_CLK
 net Net_150
 	term   ":usbcell.sof_int"
@@ -167,6 +304,24 @@ net Net_150
 	switch ":interrupt_idmux_21.interrupt_idmux_21__out==>:interrupt_21.interrupt"
 	term   ":interrupt_21.interrupt"
 end Net_150
+net Net_172
+	term   ":udb@[UDB=(2,2)]:statusicell.interrupt"
+	switch ":udb@[UDB=(2,2)]:statusicell.interrupt==>:udb@[UDB=(2,2)]:statuscell_status_7_permute.in_0"
+	switch ":udb@[UDB=(2,2)]:statuscell_status_7_permute.statuscell_status_7==>Stub-:udbswitch@[UDB=(2,2)][side=top]:v102"
+	switch "OStub-:udbswitch@[UDB=(2,2)][side=top]:v102"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:102,92_b"
+	switch ":hvswitch@[UDB=(2,2)][side=left]:2,92_f"
+	switch ":hvswitch@[UDB=(3,2)][side=left]:vseg_2_top_f"
+	switch ":hvswitch@[UDB=(3,2)][side=left]:2,85_b"
+	switch ":hvswitch@[UDB=(3,2)][side=left]:hseg_85_f"
+	switch ":hvswitch@[UDB=(3,3)][side=left]:hseg_85_f"
+	switch ":hvswitch@[UDB=(3,4)][side=left]:hseg_85_f"
+	switch ":dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:51,85_f"
+	switch "IStub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v49+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v51"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v49+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v51==>:interrupt_idmux_1.in_2"
+	switch ":interrupt_idmux_1.interrupt_idmux_1__out==>:interrupt_1.interrupt"
+	term   ":interrupt_1.interrupt"
+end Net_172
 net Net_2
 	term   ":logicalport_3.interrupt"
 	switch ":logicalport_3.interrupt==>Stub-:dsiswitch_bottom@[DSI=(1,0)][side=bottom]:dsihc_bottom:v40+:dsiswitch_bottom@[DSI=(1,0)][side=bottom]:dsihc_bottom:v42"
@@ -175,15 +330,16 @@ net Net_2
 	term   ":interrupt_7.interrupt"
 end Net_2
 net Net_78
-	term   ":udb@[UDB=(1,3)]:statusicell.interrupt"
-	switch ":udb@[UDB=(1,3)]:statusicell.interrupt==>:udb@[UDB=(1,3)]:statuscell_status_7_permute.in_0"
-	switch ":udb@[UDB=(1,3)]:statuscell_status_7_permute.statuscell_status_7==>Stub-:udbswitch@[UDB=(0,3)][side=top]:v103"
-	switch "OStub-:udbswitch@[UDB=(0,3)][side=top]:v103"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:103,52_b"
-	switch ":hvswitch@[UDB=(1,3)][side=left]:7,52_f"
-	switch ":hvswitch@[UDB=(2,3)][side=left]:vseg_7_top_f"
-	switch ":hvswitch@[UDB=(3,3)][side=left]:vseg_7_top_f"
-	switch ":hvswitch@[UDB=(3,3)][side=left]:7,95_b"
+	term   ":udb@[UDB=(2,1)]:statusicell.interrupt"
+	switch ":udb@[UDB=(2,1)]:statusicell.interrupt==>:udb@[UDB=(2,1)]:statuscell_status_7_permute.in_0"
+	switch ":udb@[UDB=(2,1)]:statuscell_status_7_permute.statuscell_status_7==>Stub-:udbswitch@[UDB=(2,1)][side=top]:v102"
+	switch "OStub-:udbswitch@[UDB=(2,1)][side=top]:v102"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:102,18_b"
+	switch ":hvswitch@[UDB=(2,1)][side=left]:6,18_f"
+	switch ":hvswitch@[UDB=(3,1)][side=left]:vseg_6_top_f"
+	switch ":hvswitch@[UDB=(3,1)][side=left]:6,95_b"
+	switch ":hvswitch@[UDB=(3,1)][side=left]:hseg_95_f"
+	switch ":hvswitch@[UDB=(3,2)][side=left]:hseg_95_f"
 	switch ":hvswitch@[UDB=(3,3)][side=left]:hseg_95_f"
 	switch ":hvswitch@[UDB=(3,4)][side=left]:hseg_95_f"
 	switch ":dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:48,95_f"
@@ -192,38 +348,75 @@ net Net_78
 	switch ":interrupt_idmux_0.interrupt_idmux_0__out==>:interrupt_0.interrupt"
 	term   ":interrupt_0.interrupt"
 end Net_78
-net \TIMER:TimerUDB:sT32:timerdp:u1.ce0__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ce0"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.ce0i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ce0i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.ce0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.ce0__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ce0"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.ce0i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.ce0i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.ce0__sig\
-net \TIMER:TimerUDB:status_2\
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.f0_blk_stat_comb"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:datapath.f0_blk_stat_comb==>:udb@[UDB=(1,3)]:dp_wrapper:output_permute.f0_blk_stat_comb"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:output_permute.outs_0==>Stub-:udbswitch@[UDB=(0,3)][side=top]:v77"
-	switch "OStub-:udbswitch@[UDB=(0,3)][side=top]:v77"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:77,30"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:93,30_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v93"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v93==>:udb@[UDB=(1,3)]:statusicell.status_2"
-	term   ":udb@[UDB=(1,3)]:statusicell.status_2"
-end \TIMER:TimerUDB:status_2\
-net \TIMER:TimerUDB:status_3\
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.f0_bus_stat_comb"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:datapath.f0_bus_stat_comb==>:udb@[UDB=(1,3)]:dp_wrapper:output_permute.f0_bus_stat_comb"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:output_permute.outs_1==>Stub-:udbswitch@[UDB=(0,3)][side=top]:v79"
-	switch "OStub-:udbswitch@[UDB=(0,3)][side=top]:v79"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:79,72"
-	switch ":udbswitch@[UDB=(0,3)][side=top]:95,72_f"
-	switch "IStub-:udbswitch@[UDB=(0,3)][side=top]:v95"
-	switch "Stub-:udbswitch@[UDB=(0,3)][side=top]:v95==>:udb@[UDB=(1,3)]:statusicell.status_3"
-	term   ":udb@[UDB=(1,3)]:statusicell.status_3"
-end \TIMER:TimerUDB:status_3\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.ce0__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ce0"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.ce0i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ce0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.ce0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.ce0__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ce0"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.ce0i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.ce0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.ce0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.ce0__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ce0"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.ce0i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ce0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.ce0__sig\
+net \RX_TIMER:TimerUDB:status_2\
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.f0_blk_stat_comb"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:datapath.f0_blk_stat_comb==>:udb@[UDB=(2,1)]:dp_wrapper:output_permute.f0_blk_stat_comb"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:output_permute.outs_0==>Stub-:udbswitch@[UDB=(2,1)][side=top]:v76"
+	switch "OStub-:udbswitch@[UDB=(2,1)][side=top]:v76"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:76,31"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:92,31_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v92"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v92==>:udb@[UDB=(2,1)]:statusicell.status_2"
+	term   ":udb@[UDB=(2,1)]:statusicell.status_2"
+end \RX_TIMER:TimerUDB:status_2\
+net \RX_TIMER:TimerUDB:status_3\
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.f0_bus_stat_comb"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:datapath.f0_bus_stat_comb==>:udb@[UDB=(2,1)]:dp_wrapper:output_permute.f0_bus_stat_comb"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:output_permute.outs_1==>Stub-:udbswitch@[UDB=(2,1)][side=top]:v78"
+	switch "OStub-:udbswitch@[UDB=(2,1)][side=top]:v78"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:78,25"
+	switch ":udbswitch@[UDB=(2,1)][side=top]:94,25_f"
+	switch "IStub-:udbswitch@[UDB=(2,1)][side=top]:v94"
+	switch "Stub-:udbswitch@[UDB=(2,1)][side=top]:v94==>:udb@[UDB=(2,1)]:statusicell.status_3"
+	term   ":udb@[UDB=(2,1)]:statusicell.status_3"
+end \RX_TIMER:TimerUDB:status_3\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.ce0__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ce0"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.ce0i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ce0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.ce0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.ce0__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ce0"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.ce0i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.ce0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.ce0__sig\
+net \TX_TIMER:TimerUDB:status_2\
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.f0_blk_stat_comb"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:datapath.f0_blk_stat_comb==>:udb@[UDB=(2,2)]:dp_wrapper:output_permute.f0_blk_stat_comb"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:output_permute.outs_0==>Stub-:udbswitch@[UDB=(2,2)][side=top]:v76"
+	switch "OStub-:udbswitch@[UDB=(2,2)][side=top]:v76"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:76,31"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:92,31_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v92"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v92==>:udb@[UDB=(2,2)]:statusicell.status_2"
+	term   ":udb@[UDB=(2,2)]:statusicell.status_2"
+end \TX_TIMER:TimerUDB:status_2\
+net \TX_TIMER:TimerUDB:status_3\
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.f0_bus_stat_comb"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:datapath.f0_bus_stat_comb==>:udb@[UDB=(2,2)]:dp_wrapper:output_permute.f0_bus_stat_comb"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:output_permute.outs_1==>Stub-:udbswitch@[UDB=(2,2)][side=top]:v78"
+	switch "OStub-:udbswitch@[UDB=(2,2)][side=top]:v78"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:78,25"
+	switch ":udbswitch@[UDB=(2,2)][side=top]:94,25_f"
+	switch "IStub-:udbswitch@[UDB=(2,2)][side=top]:v94"
+	switch "Stub-:udbswitch@[UDB=(2,2)][side=top]:v94==>:udb@[UDB=(2,2)]:statusicell.status_3"
+	term   ":udb@[UDB=(2,2)]:statusicell.status_3"
+end \TX_TIMER:TimerUDB:status_3\
 net \USBUART:Net_1010\
 	term   ":logicalport_15.interrupt"
 	switch ":logicalport_15.interrupt==>Stub-:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v36+:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v38"
@@ -256,48 +449,29 @@ net \USBUART:ep_int_1\
 	term   ":usbcell.ept_int_1"
 	switch ":usbcell.ept_int_1==>Stub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v10+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v8"
 	switch "OStub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v10+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v8"
-	switch ":dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:8,90"
-	switch ":hvswitch@[UDB=(0,1)][side=left]:21,90_f"
-	switch ":hvswitch@[UDB=(1,1)][side=left]:vseg_21_top_f"
-	switch ":hvswitch@[UDB=(2,1)][side=left]:vseg_21_top_f"
-	switch ":hvswitch@[UDB=(3,1)][side=left]:vseg_21_top_f"
-	switch ":hvswitch@[UDB=(3,1)][side=left]:21,68_b"
-	switch ":hvswitch@[UDB=(3,2)][side=left]:hseg_68_f"
-	switch ":hvswitch@[UDB=(3,3)][side=left]:hseg_68_f"
-	switch ":hvswitch@[UDB=(3,4)][side=left]:hseg_68_f"
-	switch ":dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:49,68_f"
-	switch "IStub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v49+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v51"
-	switch "Stub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v49+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v51==>:interrupt_idmux_1.in_2"
-	switch ":interrupt_idmux_1.interrupt_idmux_1__out==>:interrupt_1.interrupt"
-	term   ":interrupt_1.interrupt"
+	switch ":dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:10,35"
+	switch ":hvswitch@[UDB=(0,1)][side=left]:17,35_f"
+	switch ":hvswitch@[UDB=(1,1)][side=left]:vseg_17_top_f"
+	switch ":hvswitch@[UDB=(2,1)][side=left]:vseg_17_top_f"
+	switch ":hvswitch@[UDB=(3,1)][side=left]:vseg_17_top_f"
+	switch ":hvswitch@[UDB=(3,1)][side=left]:17,73_b"
+	switch ":hvswitch@[UDB=(3,2)][side=left]:hseg_73_f"
+	switch ":hvswitch@[UDB=(3,3)][side=left]:hseg_73_f"
+	switch ":hvswitch@[UDB=(3,4)][side=left]:hseg_73_f"
+	switch ":dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:54,73_f"
+	switch "IStub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v52+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v54"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v52+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v54==>:interrupt_idmux_2.in_2"
+	switch ":interrupt_idmux_2.interrupt_idmux_2__out==>:interrupt_2.interrupt"
+	term   ":interrupt_2.interrupt"
 end \USBUART:ep_int_1\
 net \USBUART:ep_int_2\
 	term   ":usbcell.ept_int_2"
 	switch ":usbcell.ept_int_2==>Stub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v11+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v9"
 	switch "OStub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v11+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v9"
-	switch ":dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:9,66"
-	switch ":hvswitch@[UDB=(0,2)][side=left]:hseg_66_f"
-	switch ":hvswitch@[UDB=(0,3)][side=left]:hseg_66_f"
-	switch ":hvswitch@[UDB=(0,4)][side=left]:hseg_66_f"
-	switch ":hvswitch@[UDB=(0,5)][side=left]:2,66_f"
-	switch ":hvswitch@[UDB=(1,5)][side=left]:vseg_2_top_f"
-	switch ":hvswitch@[UDB=(2,5)][side=left]:vseg_2_top_f"
-	switch ":hvswitch@[UDB=(3,5)][side=left]:vseg_2_top_f"
-	switch ":hvswitch@[UDB=(3,5)][side=left]:2,5_b"
-	switch ":dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:54,5_f"
-	switch "IStub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v52+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v54"
-	switch "Stub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v52+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v54==>:interrupt_idmux_2.in_2"
-	switch ":interrupt_idmux_2.interrupt_idmux_2__out==>:interrupt_2.interrupt"
-	term   ":interrupt_2.interrupt"
-end \USBUART:ep_int_2\
-net \USBUART:ep_int_3\
-	term   ":usbcell.ept_int_3"
-	switch ":usbcell.ept_int_3==>Stub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v12+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v14"
-	switch "OStub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v12+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v14"
-	switch ":dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:14,22"
-	switch ":hvswitch@[UDB=(0,2)][side=left]:hseg_22_f"
-	switch ":hvswitch@[UDB=(0,3)][side=left]:hseg_22_f"
-	switch ":hvswitch@[UDB=(0,4)][side=left]:5,22_f"
+	switch ":dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:9,68"
+	switch ":hvswitch@[UDB=(0,2)][side=left]:hseg_68_f"
+	switch ":hvswitch@[UDB=(0,3)][side=left]:hseg_68_f"
+	switch ":hvswitch@[UDB=(0,4)][side=left]:5,68_f"
 	switch ":hvswitch@[UDB=(1,4)][side=left]:vseg_5_top_f"
 	switch ":hvswitch@[UDB=(2,4)][side=left]:vseg_5_top_f"
 	switch ":hvswitch@[UDB=(3,4)][side=left]:vseg_5_top_f"
@@ -308,159 +482,328 @@ net \USBUART:ep_int_3\
 	switch "Stub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v53+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v55==>:interrupt_idmux_3.in_2"
 	switch ":interrupt_idmux_3.interrupt_idmux_3__out==>:interrupt_3.interrupt"
 	term   ":interrupt_3.interrupt"
+end \USBUART:ep_int_2\
+net \USBUART:ep_int_3\
+	term   ":usbcell.ept_int_3"
+	switch ":usbcell.ept_int_3==>Stub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v12+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v14"
+	switch "OStub-:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v12+:dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:v14"
+	switch ":dsiswitch_top@[DSI=(0,2)][side=top]:dsihc_top:14,48"
+	switch ":hvswitch@[UDB=(0,2)][side=left]:hseg_48_f"
+	switch ":hvswitch@[UDB=(0,3)][side=left]:hseg_48_f"
+	switch ":hvswitch@[UDB=(0,4)][side=left]:3,48_f"
+	switch ":hvswitch@[UDB=(1,4)][side=left]:vseg_3_top_f"
+	switch ":hvswitch@[UDB=(2,4)][side=left]:vseg_3_top_f"
+	switch ":hvswitch@[UDB=(3,4)][side=left]:vseg_3_top_f"
+	switch ":hvswitch@[UDB=(3,4)][side=left]:3,84_b"
+	switch ":hvswitch@[UDB=(3,4)][side=left]:hseg_84_f"
+	switch ":dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:58,84_f"
+	switch "IStub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v56+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v58"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v56+:dsiswitch_bottom@[DSI=(1,5)][side=bottom]:dsihc_bottom:v58==>:interrupt_idmux_4.in_2"
+	switch ":interrupt_idmux_4.interrupt_idmux_4__out==>:interrupt_4.interrupt"
+	term   ":interrupt_4.interrupt"
 end \USBUART:ep_int_3\
-net \TIMER:TimerUDB:sT32:timerdp:u0.ce0__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ce0"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.ce0i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ce0i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.ce0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.cl0__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cl0"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.cl0i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cl0i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.cl0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.ff0__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ff0"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.ff0i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ff0i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.ff0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.ce1__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ce1"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.ce1i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ce1i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.ce1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.cl1__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cl1"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.cl1i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cl1i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.cl1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.z1__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.z1"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.z1==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.z1i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.z1i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.z1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.ff1__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ff1"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.ff1i"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ff1i"
-end \TIMER:TimerUDB:sT32:timerdp:u0.ff1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.sol_msb__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.sol_msb"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.sir"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.sir"
-end \TIMER:TimerUDB:sT32:timerdp:u0.sol_msb__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u0.cfbo__sig\
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cfbo"
-	switch ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.cfbi"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cfbi"
-end \TIMER:TimerUDB:sT32:timerdp:u0.cfbo__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.sor__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.sor"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.sor==>:udb@[UDB=(1,2)]:dp_wrapper:datapath.sil"
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.sil"
-end \TIMER:TimerUDB:sT32:timerdp:u1.sor__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.cmsbo__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cmsbo"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(1,2)]:dp_wrapper:datapath.cmsbi"
-	term   ":udb@[UDB=(1,2)]:dp_wrapper:datapath.cmsbi"
-end \TIMER:TimerUDB:sT32:timerdp:u1.cmsbo__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.cl0__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cl0"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.cl0i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cl0i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.cl0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.ff0__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ff0"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.ff0i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ff0i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.ff0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.ce1__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ce1"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.ce1i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ce1i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.ce1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.cl1__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cl1"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.cl1i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cl1i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.cl1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.z1__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.z1"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.z1==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.z1i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.z1i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.z1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.ff1__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ff1"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.ff1i"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ff1i"
-end \TIMER:TimerUDB:sT32:timerdp:u1.ff1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.sol_msb__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.sol_msb"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.sir"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.sir"
-end \TIMER:TimerUDB:sT32:timerdp:u1.sol_msb__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u1.cfbo__sig\
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cfbo"
-	switch ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.cfbi"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cfbi"
-end \TIMER:TimerUDB:sT32:timerdp:u1.cfbo__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.sor__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.sor"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.sor==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.sil"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.sil"
-end \TIMER:TimerUDB:sT32:timerdp:u2.sor__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.cmsbo__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cmsbo"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(0,2)]:dp_wrapper:datapath.cmsbi"
-	term   ":udb@[UDB=(0,2)]:dp_wrapper:datapath.cmsbi"
-end \TIMER:TimerUDB:sT32:timerdp:u2.cmsbo__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.cl0__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cl0"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.cl0i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cl0i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.cl0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.ff0__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ff0"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.ff0i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.ff0i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.ff0__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.ce1__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ce1"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.ce1i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.ce1i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.ce1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.cl1__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cl1"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.cl1i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cl1i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.cl1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.z1__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.z1"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.z1==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.z1i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.z1i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.z1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.ff1__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ff1"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.ff1i"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.ff1i"
-end \TIMER:TimerUDB:sT32:timerdp:u2.ff1__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.sol_msb__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.sol_msb"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.sir"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.sir"
-end \TIMER:TimerUDB:sT32:timerdp:u2.sol_msb__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u2.cfbo__sig\
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cfbo"
-	switch ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(1,3)]:dp_wrapper:datapath.cfbi"
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cfbi"
-end \TIMER:TimerUDB:sT32:timerdp:u2.cfbo__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u3.sor__sig\
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.sor"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:datapath.sor==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.sil"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.sil"
-end \TIMER:TimerUDB:sT32:timerdp:u3.sor__sig\
-net \TIMER:TimerUDB:sT32:timerdp:u3.cmsbo__sig\
-	term   ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cmsbo"
-	switch ":udb@[UDB=(1,3)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(0,3)]:dp_wrapper:datapath.cmsbi"
-	term   ":udb@[UDB=(0,3)]:dp_wrapper:datapath.cmsbi"
-end \TIMER:TimerUDB:sT32:timerdp:u3.cmsbo__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.ce0__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ce0"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ce0==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.ce0i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ce0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.ce0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.cl0__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cl0"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.cl0i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cl0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.cl0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.ff0__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ff0"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.ff0i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ff0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.ff0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.ce1__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ce1"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.ce1i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ce1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.ce1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.cl1__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cl1"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.cl1i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cl1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.cl1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.z1__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.z1"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.z1==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.z1i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.z1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.z1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.ff1__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ff1"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.ff1i"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ff1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.ff1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.sol_msb__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.sol_msb"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.sir"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.sir"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.sol_msb__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u0.cfbo__sig\
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cfbo"
+	switch ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.cfbi"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cfbi"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u0.cfbo__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.sor__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.sor"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.sor==>:udb@[UDB=(2,0)]:dp_wrapper:datapath.sil"
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.sil"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.sor__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.cmsbo__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cmsbo"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(2,0)]:dp_wrapper:datapath.cmsbi"
+	term   ":udb@[UDB=(2,0)]:dp_wrapper:datapath.cmsbi"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.cmsbo__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.cl0__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cl0"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.cl0i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cl0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.cl0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.ff0__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ff0"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.ff0i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ff0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.ff0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.ce1__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ce1"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.ce1i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ce1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.ce1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.cl1__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cl1"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.cl1i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cl1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.cl1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.z1__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.z1"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.z1==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.z1i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.z1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.z1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.ff1__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ff1"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.ff1i"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ff1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.ff1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.sol_msb__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.sol_msb"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.sir"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.sir"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.sol_msb__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u1.cfbo__sig\
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cfbo"
+	switch ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.cfbi"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cfbi"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u1.cfbo__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.sor__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.sor"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.sor==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.sil"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.sil"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.sor__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.cmsbo__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cmsbo"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(3,0)]:dp_wrapper:datapath.cmsbi"
+	term   ":udb@[UDB=(3,0)]:dp_wrapper:datapath.cmsbi"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.cmsbo__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.cl0__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cl0"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.cl0i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cl0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.cl0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.ff0__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ff0"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.ff0i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.ff0i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.ff0__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.ce1__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ce1"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.ce1i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.ce1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.ce1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.cl1__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cl1"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.cl1i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cl1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.cl1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.z1__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.z1"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.z1==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.z1i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.z1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.z1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.ff1__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ff1"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.ff1i"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.ff1i"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.ff1__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.sol_msb__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.sol_msb"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.sir"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.sir"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.sol_msb__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u2.cfbo__sig\
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cfbo"
+	switch ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(2,1)]:dp_wrapper:datapath.cfbi"
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cfbi"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u2.cfbo__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u3.sor__sig\
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.sor"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:datapath.sor==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.sil"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.sil"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u3.sor__sig\
+net \RX_TIMER:TimerUDB:sT32:timerdp:u3.cmsbo__sig\
+	term   ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cmsbo"
+	switch ":udb@[UDB=(2,1)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(3,1)]:dp_wrapper:datapath.cmsbi"
+	term   ":udb@[UDB=(3,1)]:dp_wrapper:datapath.cmsbi"
+end \RX_TIMER:TimerUDB:sT32:timerdp:u3.cmsbo__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.cl0__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cl0"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.cl0i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cl0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.cl0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.ff0__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ff0"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.ff0i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ff0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.ff0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.ce1__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ce1"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.ce1i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ce1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.ce1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.cl1__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cl1"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.cl1i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cl1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.cl1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.z1__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.z1"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.z1==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.z1i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.z1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.z1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.ff1__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ff1"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.ff1i"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ff1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.ff1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.sol_msb__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.sol_msb"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.sir"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.sir"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.sol_msb__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u0.cfbo__sig\
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cfbo"
+	switch ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.cfbi"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cfbi"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u0.cfbo__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.sor__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.sor"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.sor==>:udb@[UDB=(2,3)]:dp_wrapper:datapath.sil"
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.sil"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.sor__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.cmsbo__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cmsbo"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(2,3)]:dp_wrapper:datapath.cmsbi"
+	term   ":udb@[UDB=(2,3)]:dp_wrapper:datapath.cmsbi"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.cmsbo__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.cl0__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cl0"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.cl0i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cl0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.cl0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.ff0__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ff0"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.ff0i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ff0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.ff0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.ce1__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ce1"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.ce1i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ce1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.ce1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.cl1__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cl1"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.cl1i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cl1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.cl1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.z1__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.z1"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.z1==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.z1i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.z1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.z1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.ff1__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ff1"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.ff1i"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ff1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.ff1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.sol_msb__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.sol_msb"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.sir"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.sir"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.sol_msb__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u1.cfbo__sig\
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cfbo"
+	switch ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.cfbi"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cfbi"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u1.cfbo__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.sor__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.sor"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.sor==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.sil"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.sil"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.sor__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.cmsbo__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cmsbo"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(3,3)]:dp_wrapper:datapath.cmsbi"
+	term   ":udb@[UDB=(3,3)]:dp_wrapper:datapath.cmsbi"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.cmsbo__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.cl0__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cl0"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cl0==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.cl0i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cl0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.cl0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.ff0__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ff0"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ff0==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.ff0i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.ff0i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.ff0__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.ce1__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ce1"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ce1==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.ce1i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.ce1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.ce1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.cl1__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cl1"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cl1==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.cl1i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cl1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.cl1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.z1__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.z1"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.z1==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.z1i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.z1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.z1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.ff1__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ff1"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.ff1==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.ff1i"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.ff1i"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.ff1__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.sol_msb__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.sol_msb"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.sol_msb==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.sir"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.sir"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.sol_msb__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u2.cfbo__sig\
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cfbo"
+	switch ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cfbo==>:udb@[UDB=(2,2)]:dp_wrapper:datapath.cfbi"
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cfbi"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u2.cfbo__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u3.sor__sig\
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.sor"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:datapath.sor==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.sil"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.sil"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u3.sor__sig\
+net \TX_TIMER:TimerUDB:sT32:timerdp:u3.cmsbo__sig\
+	term   ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cmsbo"
+	switch ":udb@[UDB=(2,2)]:dp_wrapper:datapath.cmsbo==>:udb@[UDB=(3,2)]:dp_wrapper:datapath.cmsbi"
+	term   ":udb@[UDB=(3,2)]:dp_wrapper:datapath.cmsbi"
+end \TX_TIMER:TimerUDB:sT32:timerdp:u3.cmsbo__sig\

@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: RECEIVE.h  
+* File Name: RX_PIN.h  
 * Version 2.20
 *
 * Description:
@@ -15,8 +15,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_RECEIVE_ALIASES_H) /* Pins RECEIVE_ALIASES_H */
-#define CY_PINS_RECEIVE_ALIASES_H
+#if !defined(CY_PINS_RX_PIN_ALIASES_H) /* Pins RX_PIN_ALIASES_H */
+#define CY_PINS_RX_PIN_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,12 +25,12 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define RECEIVE_0			(RECEIVE__0__PC)
-#define RECEIVE_0_INTR	((uint16)((uint16)0x0001u << RECEIVE__0__SHIFT))
+#define RX_PIN_0			(RX_PIN__0__PC)
+#define RX_PIN_0_INTR	((uint16)((uint16)0x0001u << RX_PIN__0__SHIFT))
 
-#define RECEIVE_INTR_ALL	 ((uint16)(RECEIVE_0_INTR))
+#define RX_PIN_INTR_ALL	 ((uint16)(RX_PIN_0_INTR))
 
-#endif /* End Pins RECEIVE_ALIASES_H */
+#endif /* End Pins RX_PIN_ALIASES_H */
 
 
 /* [] END OF FILE */
