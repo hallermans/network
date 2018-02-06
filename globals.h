@@ -13,8 +13,11 @@
 #define GLOBALS_H
     
 #include <stdbool.h>
+#include <stdint.h>
 
 extern bool transmitting;
+extern uint8_t sourceAddress;
+extern uint8_t destinationAddress;
 
 #endif
 /* [] END OF FILE */

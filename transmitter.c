@@ -16,7 +16,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int writeMessage(char *message, int size);
+void addHeaderAndCrc(uint8_t *message, int textSize);
+bool writeMessage(uint8_t *message, int size);
 
 enum states {IDLE, BUSY_HIGH, BUSY_LOW, COLLISION};
 enum states currentState = IDLE;
@@ -65,36 +66,49 @@ void transmitter_timer_handler() {
 }
 
 void transmitter_uart_handler(char c) {
-    static char message[100];
-    static int size = 0;
+    static uint8_t message[52]; //7 header + 44 message + 1 CRC
+    static char *text = (char *)(message + 7);
+    static int textSize = 0;
     
-    if (c=='\r') {
-        USBUART_PutString("\r\n");
-        transmitting = true;
-        while (writeMessage(message, size)!=0) CyDelay(rand()%1000);
-        transmitting = false;
-		size = 0;
+    if (c!='\r') {
+        USBUART_PutChar(c);
+        text[textSize++] = c | 0x80; //MSB is always high
     }
     else {
-        USBUART_PutChar(c);
-        message[size++] = c;
+        USBUART_PutString("\r\n");
+        addHeaderAndCrc(message, textSize);
+        transmitting = true;
+        while (writeMessage(message, textSize + 8)==false) CyDelay(rand()%1000);
+        transmitting = false;
+		textSize = 0;
     }
 }
 
-/*
- * Write message to TX_PIN
- * MSB is always set to 1
- * Returns 0 if succesful, 1 if collision
- */
-int writeMessage(char *message, int size) {
+void addHeaderAndCrc(uint8_t *message, int textSize) {
+    int pos = 0;
+    message[pos++] = 0x80; //Start of header
+    message[pos++] = 0x81; //Version number
+    message[pos++] = sourceAddress;
+    message[pos++] = destinationAddress;
+    message[pos++] = textSize;
+    message[pos++] = 0x80; //CRCs are not used
+    message[pos++] = 0xF7; //Header CRC is not used
+    
+    pos+=textSize;
+    message[pos++] = 0xF7; //Message CRC is not used
+}
+
+
+//Returns true if succesful, false if collision
+bool writeMessage(uint8_t *message, int size) {
     while (currentState != IDLE);
     collisionOccured = false;
     
     for (int i = 0; i<size; i++) {
-        uint8 c = message[i] | 0x80; //MSB is always high
+        uint8 c = message[i];
         
         for (int b = 7; b>=0; b--) {
-            if (collisionOccured) return 1;
+            if (collisionOccured) return false;
             
             TX_PIN_Write((c>>b) & 0x01);
             CyDelayUs(500);
@@ -103,7 +117,7 @@ int writeMessage(char *message, int size) {
         }
     }
     
-    return 0;
+    return true;
 }
 
 /* [] END OF FILE */
