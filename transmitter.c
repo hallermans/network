@@ -72,7 +72,7 @@ void transmitter_uart_handler(char c) {
     
     if (c!='\r') {
         USBUART_PutChar(c);
-        text[textSize++] = c | 0x80; //MSB is always high
+        text[textSize++] = c;
     }
     else {
         USBUART_PutString("\r\n");
@@ -105,7 +105,7 @@ bool writeMessage(uint8_t *message, int size) {
     collisionOccured = false;
     
     for (int i = 0; i<size; i++) {
-        uint8 c = message[i];
+        uint8 c = message[i] | 0x80; //MSB is always high
         
         for (int b = 7; b>=0; b--) {
             if (collisionOccured) return false;
