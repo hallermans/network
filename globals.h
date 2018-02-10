@@ -16,7 +16,7 @@
 #include <stdint.h>
 
 extern bool transmitting;
-extern uint8_t sourceAddress;
+extern uint8_t myAddress;
 extern uint8_t destinationAddress;
 
 #endif

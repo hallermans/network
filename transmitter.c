@@ -88,7 +88,7 @@ void addHeaderAndCrc(uint8_t *message, int textSize) {
     int pos = 0;
     message[pos++] = 0x80; //Start of header
     message[pos++] = 0x81; //Version number
-    message[pos++] = sourceAddress;
+    message[pos++] = myAddress;
     message[pos++] = destinationAddress;
     message[pos++] = textSize;
     message[pos++] = 0x80; //CRCs are not used

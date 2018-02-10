@@ -54,11 +54,16 @@ void receiveByte(uint8_t byte) {
     if (pos==1 && message[0]!=0x80) pos = 0;
     else if (pos==2 && message[1]!=0x81) pos = 0;
     else if (pos>=8) {
+        int source = message[2] & 0x7F;
+        int destination = message[3] & 0x7F;
         int textSize = message[4] & 0x7F;
-        if (pos==textSize+8) {
-            for (int i=7; i<textSize+7; i++) message[i] &= 0x7F;
-            message[textSize+7] = '\0';
-            USBUART_PutString((char *)(message+7));
+        
+        if (pos==textSize+8) { //entire message has been received
+            char text[textSize+1];
+            for (int i=0; i<textSize; i++) text[i] = message[i+7] & 0x7F;
+            text[textSize] = '\0';
+            
+            if (destination==myAddress) USBUART_PutString(text);
             pos = 0;
         }
     }

@@ -17,7 +17,7 @@
 #include <stdbool.h>
 
 bool transmitting = false;
-uint8_t sourceAddress = 0x07;
+uint8_t myAddress = 0x07;
 uint8_t destinationAddress = 0x08;
 
 CY_ISR(RX_PIN_HANDLER) {
