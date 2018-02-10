@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 1
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 1
 
 
    1              		.syntax unified
@@ -19,14 +19,14 @@ ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.section	.text.receiveBit,"ax",%progbits
+  19              		.section	.text.receiveByte,"ax",%progbits
   20              		.align	2
-  21              		.global	receiveBit
+  21              		.global	receiveByte
   22              		.thumb
   23              		.thumb_func
-  24              		.type	receiveBit, %function
-  25              	receiveBit:
-  26              	.LFB65:
+  24              		.type	receiveByte, %function
+  25              	receiveByte:
+  26              	.LFB66:
   27              		.file 1 "receiver.c"
    1:receiver.c    **** /* ========================================
    2:receiver.c    ****  *
@@ -46,904 +46,1343 @@ ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 1
   16:receiver.c    **** #include "receiver.h"
   17:receiver.c    **** 
   18:receiver.c    **** void receiveBit(bool bit);
-  19:receiver.c    **** 
-  20:receiver.c    **** void receiver_rx_handler() {
-  21:receiver.c    ****     if (RX_PIN_Read()==0) return; //receiver only cares about rising edge
-  22:receiver.c    **** 
-  23:receiver.c    ****     RX_TIMER_Stop(); RX_TIMER_WriteCounter(26400);  RX_TIMER_Start(); //1100 us
-  24:receiver.c    ****     receiveBit(true);
-  25:receiver.c    **** }
-  26:receiver.c    **** 
-  27:receiver.c    **** void receiver_timer_handler() {
-  28:receiver.c    ****     receiveBit(false);
-  29:receiver.c    **** }
-  30:receiver.c    **** 
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 2
+  19:receiver.c    **** void receiveByte(uint8_t byte);
+  20:receiver.c    **** 
+  21:receiver.c    **** void receiver_rx_handler() {
+  22:receiver.c    ****     if (RX_PIN_Read()==0) return; //receiver only cares about rising edge
+  23:receiver.c    **** 
+  24:receiver.c    ****     RX_TIMER_Stop(); RX_TIMER_WriteCounter(26400);  RX_TIMER_Start(); //1100 us
+  25:receiver.c    ****     receiveBit(true);
+  26:receiver.c    **** }
+  27:receiver.c    **** 
+  28:receiver.c    **** void receiver_timer_handler() {
+  29:receiver.c    ****     receiveBit(false);
+  30:receiver.c    **** }
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 2
 
 
-  31:receiver.c    **** void receiveBit(bool bit) {
-  28              		.loc 1 31 0
+  31:receiver.c    **** 
+  32:receiver.c    **** void receiveBit(bool bit) {
+  33:receiver.c    ****     static int currentBit = 7;
+  34:receiver.c    **** 	static char c;
+  35:receiver.c    ****     
+  36:receiver.c    ****     if (transmitting) return;
+  37:receiver.c    **** 
+  38:receiver.c    ****     c = c | (bit<<currentBit);
+  39:receiver.c    ****     currentBit--;
+  40:receiver.c    ****     if (currentBit<0) {
+  41:receiver.c    ****       RX_TIMER_Stop();
+  42:receiver.c    ****       receiveByte(c);
+  43:receiver.c    ****       currentBit = 7;
+  44:receiver.c    ****       c = '\0';
+  45:receiver.c    ****     }
+  46:receiver.c    **** }
+  47:receiver.c    **** 
+  48:receiver.c    **** void receiveByte(uint8_t byte) {
+  28              		.loc 1 48 0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 0, uses_anonymous_args = 0
   32              	.LVL0:
+  33 0000 38B5     		push	{r3, r4, r5, lr}
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 3, -16
+  36              		.cfi_offset 4, -12
+  37              		.cfi_offset 5, -8
+  38              		.cfi_offset 14, -4
+  49:receiver.c    ****     static uint8_t message[52]; //7 header + 44 message + 1 CRC
+  50:receiver.c    ****     static int pos = 0;
+  51:receiver.c    ****     
+  52:receiver.c    ****     message[pos++] = byte;
+  39              		.loc 1 52 0
+  40 0002 1C49     		ldr	r1, .L9
+  41 0004 0B68     		ldr	r3, [r1]
+  42 0006 5A1C     		adds	r2, r3, #1
+  43 0008 0A60     		str	r2, [r1]
+  44 000a 0B44     		add	r3, r3, r1
+  45 000c 1871     		strb	r0, [r3, #4]
+  53:receiver.c    **** 
+  54:receiver.c    ****     if (pos==1 && message[0]!=0x80) pos = 0;
+  46              		.loc 1 54 0
+  47 000e 012A     		cmp	r2, #1
+  48 0010 05D1     		bne	.L2
+  49              		.loc 1 54 0 is_stmt 0 discriminator 1
+  50 0012 0B79     		ldrb	r3, [r1, #4]	@ zero_extendqisi2
+  51 0014 802B     		cmp	r3, #128
+  52 0016 02D0     		beq	.L2
+  53              		.loc 1 54 0 discriminator 2
+  54 0018 0022     		movs	r2, #0
+  55 001a 0A60     		str	r2, [r1]
+  56 001c 38BD     		pop	{r3, r4, r5, pc}
+  57              	.L2:
+  55:receiver.c    ****     else if (pos==2 && message[1]!=0x81) pos = 0;
+  58              		.loc 1 55 0 is_stmt 1
+  59 001e 022A     		cmp	r2, #2
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 3
+
+
+  60 0020 07D1     		bne	.L4
+  61              		.loc 1 55 0 is_stmt 0 discriminator 1
+  62 0022 144B     		ldr	r3, .L9
+  63 0024 5B79     		ldrb	r3, [r3, #5]	@ zero_extendqisi2
+  64 0026 812B     		cmp	r3, #129
+  65 0028 03D0     		beq	.L4
+  66              		.loc 1 55 0 discriminator 2
+  67 002a 0022     		movs	r2, #0
+  68 002c 114B     		ldr	r3, .L9
+  69 002e 1A60     		str	r2, [r3]
+  70 0030 38BD     		pop	{r3, r4, r5, pc}
+  71              	.L4:
+  56:receiver.c    ****     else if (pos>=8) {
+  72              		.loc 1 56 0 is_stmt 1
+  73 0032 072A     		cmp	r2, #7
+  74 0034 1DDD     		ble	.L1
+  75              	.LBB2:
+  57:receiver.c    ****         int textSize = message[4] & 0x7F;
+  76              		.loc 1 57 0
+  77 0036 0F4B     		ldr	r3, .L9
+  78 0038 187A     		ldrb	r0, [r3, #8]	@ zero_extendqisi2
+  79              	.LVL1:
+  80 003a 00F07F00 		and	r0, r0, #127
+  81              	.LVL2:
+  58:receiver.c    ****         if (pos==textSize+8) {
+  82              		.loc 1 58 0
+  83 003e 00F10803 		add	r3, r0, #8
+  84 0042 9A42     		cmp	r2, r3
+  85 0044 15D1     		bne	.L1
+  86 0046 07E0     		b	.L7
+  87              	.LVL3:
+  88              	.L6:
+  89              	.LBB3:
+  59:receiver.c    ****             for (int i=7; i<textSize+7; i++) message[i] &= 0x7F;
+  90              		.loc 1 59 0 discriminator 3
+  91 0048 0A4B     		ldr	r3, .L9
+  92 004a 1344     		add	r3, r3, r2
+  93 004c 1979     		ldrb	r1, [r3, #4]	@ zero_extendqisi2
+  94 004e 01F07F01 		and	r1, r1, #127
+  95 0052 1971     		strb	r1, [r3, #4]
+  96 0054 0132     		adds	r2, r2, #1
+  97              	.LVL4:
+  98 0056 00E0     		b	.L5
+  99              	.LVL5:
+ 100              	.L7:
+ 101              	.LBE3:
+ 102 0058 0722     		movs	r2, #7
+ 103              	.LVL6:
+ 104              	.L5:
+ 105              	.LBB4:
+ 106              		.loc 1 59 0 is_stmt 0 discriminator 1
+ 107 005a C31D     		adds	r3, r0, #7
+ 108 005c 9A42     		cmp	r2, r3
+ 109 005e F3DB     		blt	.L6
+ 110              	.LBE4:
+  60:receiver.c    ****             message[textSize+7] = '\0';
+ 111              		.loc 1 60 0 is_stmt 1
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 4
+
+
+ 112 0060 044C     		ldr	r4, .L9
+ 113 0062 2344     		add	r3, r3, r4
+ 114 0064 0025     		movs	r5, #0
+ 115 0066 1D71     		strb	r5, [r3, #4]
+  61:receiver.c    ****             USBUART_PutString((char *)(message+7));
+ 116              		.loc 1 61 0
+ 117 0068 04F10B00 		add	r0, r4, #11
+ 118              	.LVL7:
+ 119 006c FFF7FEFF 		bl	USBUART_PutString
+ 120              	.LVL8:
+  62:receiver.c    ****             pos = 0;
+ 121              		.loc 1 62 0
+ 122 0070 2560     		str	r5, [r4]
+ 123              	.L1:
+ 124 0072 38BD     		pop	{r3, r4, r5, pc}
+ 125              	.L10:
+ 126              		.align	2
+ 127              	.L9:
+ 128 0074 00000000 		.word	.LANCHOR0
+ 129              	.LBE2:
+ 130              		.cfi_endproc
+ 131              	.LFE66:
+ 132              		.size	receiveByte, .-receiveByte
+ 133              		.section	.text.receiveBit,"ax",%progbits
+ 134              		.align	2
+ 135              		.global	receiveBit
+ 136              		.thumb
+ 137              		.thumb_func
+ 138              		.type	receiveBit, %function
+ 139              	receiveBit:
+ 140              	.LFB65:
   32:receiver.c    ****     static int currentBit = 7;
-  33:receiver.c    **** 	static char c;
-  34:receiver.c    ****     
-  35:receiver.c    ****     if (transmitting) return;
-  33              		.loc 1 35 0
-  34 0000 0E4B     		ldr	r3, .L5
-  35 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
-  36 0004 CBB9     		cbnz	r3, .L4
-  31:receiver.c    ****     static int currentBit = 7;
-  37              		.loc 1 31 0
-  38 0006 10B5     		push	{r4, lr}
-  39              		.cfi_def_cfa_offset 8
-  40              		.cfi_offset 4, -8
-  41              		.cfi_offset 14, -4
+ 141              		.loc 1 32 0
+ 142              		.cfi_startproc
+ 143              		@ args = 0, pretend = 0, frame = 0
+ 144              		@ frame_needed = 0, uses_anonymous_args = 0
+ 145              	.LVL9:
   36:receiver.c    **** 
-  37:receiver.c    ****     c = c | (bit<<currentBit);
-  42              		.loc 1 37 0
-  43 0008 0D4A     		ldr	r2, .L5+4
-  44 000a 1368     		ldr	r3, [r2]
-  45 000c 9840     		lsls	r0, r0, r3
-  46              	.LVL1:
-  47 000e 0D49     		ldr	r1, .L5+8
-  48 0010 0C78     		ldrb	r4, [r1]	@ zero_extendqisi2
-  49 0012 2043     		orrs	r0, r0, r4
-  50 0014 0870     		strb	r0, [r1]
+ 146              		.loc 1 36 0
+ 147 0000 0F4B     		ldr	r3, .L15
+ 148 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 149 0004 DBB9     		cbnz	r3, .L14
+  32:receiver.c    ****     static int currentBit = 7;
+ 150              		.loc 1 32 0
+ 151 0006 10B5     		push	{r4, lr}
+ 152              		.cfi_def_cfa_offset 8
+ 153              		.cfi_offset 4, -8
+ 154              		.cfi_offset 14, -4
   38:receiver.c    ****     currentBit--;
-  51              		.loc 1 38 0
-  52 0016 013B     		subs	r3, r3, #1
-  53 0018 1360     		str	r3, [r2]
+ 155              		.loc 1 38 0
+ 156 0008 0E4A     		ldr	r2, .L15+4
+ 157 000a 1368     		ldr	r3, [r2]
+ 158 000c 9840     		lsls	r0, r0, r3
+ 159              	.LVL10:
+ 160 000e 0E49     		ldr	r1, .L15+8
+ 161 0010 91F83840 		ldrb	r4, [r1, #56]	@ zero_extendqisi2
+ 162 0014 2043     		orrs	r0, r0, r4
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 5
+
+
+ 163 0016 81F83800 		strb	r0, [r1, #56]
   39:receiver.c    ****     if (currentBit<0) {
-  54              		.loc 1 39 0
-  55 001a 002B     		cmp	r3, #0
-  56 001c 0CDA     		bge	.L1
+ 164              		.loc 1 39 0
+ 165 001a 013B     		subs	r3, r3, #1
+ 166 001c 1360     		str	r3, [r2]
   40:receiver.c    ****       RX_TIMER_Stop();
-  57              		.loc 1 40 0
-  58 001e FFF7FEFF 		bl	RX_TIMER_Stop
-  59              	.LVL2:
-  41:receiver.c    ****       USBUART_PutChar(c & 0x7F);
-  60              		.loc 1 41 0
-  61 0022 084C     		ldr	r4, .L5+8
-  62 0024 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
-  63 0026 00F07F00 		and	r0, r0, #127
-  64 002a FFF7FEFF 		bl	USBUART_PutChar
-  65              	.LVL3:
+ 167              		.loc 1 40 0
+ 168 001e 002B     		cmp	r3, #0
+ 169 0020 0CDA     		bge	.L11
+  41:receiver.c    ****       receiveByte(c);
+ 170              		.loc 1 41 0
+ 171 0022 FFF7FEFF 		bl	RX_TIMER_Stop
+ 172              	.LVL11:
   42:receiver.c    ****       currentBit = 7;
-  66              		.loc 1 42 0
-  67 002e 0722     		movs	r2, #7
-  68 0030 034B     		ldr	r3, .L5+4
-  69 0032 1A60     		str	r2, [r3]
+ 173              		.loc 1 42 0
+ 174 0026 084C     		ldr	r4, .L15+8
+ 175 0028 94F83800 		ldrb	r0, [r4, #56]	@ zero_extendqisi2
+ 176 002c FFF7FEFF 		bl	receiveByte
+ 177              	.LVL12:
   43:receiver.c    ****       c = '\0';
-  70              		.loc 1 43 0
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 3
+ 178              		.loc 1 43 0
+ 179 0030 0722     		movs	r2, #7
+ 180 0032 044B     		ldr	r3, .L15+4
+ 181 0034 1A60     		str	r2, [r3]
+  44:receiver.c    ****     }
+ 182              		.loc 1 44 0
+ 183 0036 0023     		movs	r3, #0
+ 184 0038 84F83830 		strb	r3, [r4, #56]
+ 185              	.L11:
+ 186 003c 10BD     		pop	{r4, pc}
+ 187              	.LVL13:
+ 188              	.L14:
+ 189              		.cfi_def_cfa_offset 0
+ 190              		.cfi_restore 4
+ 191              		.cfi_restore 14
+ 192 003e 7047     		bx	lr
+ 193              	.L16:
+ 194              		.align	2
+ 195              	.L15:
+ 196 0040 00000000 		.word	transmitting
+ 197 0044 00000000 		.word	.LANCHOR1
+ 198 0048 00000000 		.word	.LANCHOR0
+ 199              		.cfi_endproc
+ 200              	.LFE65:
+ 201              		.size	receiveBit, .-receiveBit
+ 202              		.section	.text.receiver_rx_handler,"ax",%progbits
+ 203              		.align	2
+ 204              		.global	receiver_rx_handler
+ 205              		.thumb
+ 206              		.thumb_func
+ 207              		.type	receiver_rx_handler, %function
+ 208              	receiver_rx_handler:
+ 209              	.LFB63:
+  21:receiver.c    ****     if (RX_PIN_Read()==0) return; //receiver only cares about rising edge
+ 210              		.loc 1 21 0
+ 211              		.cfi_startproc
+ 212              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 6
 
 
-  71 0034 0023     		movs	r3, #0
-  72 0036 2370     		strb	r3, [r4]
-  73              	.L1:
-  74 0038 10BD     		pop	{r4, pc}
-  75              	.LVL4:
-  76              	.L4:
-  77              		.cfi_def_cfa_offset 0
-  78              		.cfi_restore 4
-  79              		.cfi_restore 14
-  80 003a 7047     		bx	lr
-  81              	.L6:
-  82              		.align	2
-  83              	.L5:
-  84 003c 00000000 		.word	transmitting
-  85 0040 00000000 		.word	.LANCHOR0
-  86 0044 00000000 		.word	.LANCHOR1
-  87              		.cfi_endproc
-  88              	.LFE65:
-  89              		.size	receiveBit, .-receiveBit
-  90              		.section	.text.receiver_rx_handler,"ax",%progbits
-  91              		.align	2
-  92              		.global	receiver_rx_handler
-  93              		.thumb
-  94              		.thumb_func
-  95              		.type	receiver_rx_handler, %function
-  96              	receiver_rx_handler:
-  97              	.LFB63:
-  20:receiver.c    ****     if (RX_PIN_Read()==0) return; //receiver only cares about rising edge
-  98              		.loc 1 20 0
-  99              		.cfi_startproc
- 100              		@ args = 0, pretend = 0, frame = 0
- 101              		@ frame_needed = 0, uses_anonymous_args = 0
- 102 0000 08B5     		push	{r3, lr}
- 103              		.cfi_def_cfa_offset 8
- 104              		.cfi_offset 3, -8
- 105              		.cfi_offset 14, -4
-  21:receiver.c    **** 
- 106              		.loc 1 21 0
- 107 0002 FFF7FEFF 		bl	RX_PIN_Read
- 108              	.LVL5:
- 109 0006 50B1     		cbz	r0, .L7
-  23:receiver.c    ****     receiveBit(true);
- 110              		.loc 1 23 0
- 111 0008 FFF7FEFF 		bl	RX_TIMER_Stop
- 112              	.LVL6:
- 113 000c 46F22070 		movw	r0, #26400
- 114 0010 FFF7FEFF 		bl	RX_TIMER_WriteCounter
- 115              	.LVL7:
- 116 0014 FFF7FEFF 		bl	RX_TIMER_Start
- 117              	.LVL8:
-  24:receiver.c    **** }
- 118              		.loc 1 24 0
- 119 0018 0120     		movs	r0, #1
- 120 001a FFF7FEFF 		bl	receiveBit
- 121              	.LVL9:
- 122              	.L7:
- 123 001e 08BD     		pop	{r3, pc}
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 4
+ 213              		@ frame_needed = 0, uses_anonymous_args = 0
+ 214 0000 08B5     		push	{r3, lr}
+ 215              		.cfi_def_cfa_offset 8
+ 216              		.cfi_offset 3, -8
+ 217              		.cfi_offset 14, -4
+  22:receiver.c    **** 
+ 218              		.loc 1 22 0
+ 219 0002 FFF7FEFF 		bl	RX_PIN_Read
+ 220              	.LVL14:
+ 221 0006 50B1     		cbz	r0, .L17
+  24:receiver.c    ****     receiveBit(true);
+ 222              		.loc 1 24 0
+ 223 0008 FFF7FEFF 		bl	RX_TIMER_Stop
+ 224              	.LVL15:
+ 225 000c 46F22070 		movw	r0, #26400
+ 226 0010 FFF7FEFF 		bl	RX_TIMER_WriteCounter
+ 227              	.LVL16:
+ 228 0014 FFF7FEFF 		bl	RX_TIMER_Start
+ 229              	.LVL17:
+  25:receiver.c    **** }
+ 230              		.loc 1 25 0
+ 231 0018 0120     		movs	r0, #1
+ 232 001a FFF7FEFF 		bl	receiveBit
+ 233              	.LVL18:
+ 234              	.L17:
+ 235 001e 08BD     		pop	{r3, pc}
+ 236              		.cfi_endproc
+ 237              	.LFE63:
+ 238              		.size	receiver_rx_handler, .-receiver_rx_handler
+ 239              		.section	.text.receiver_timer_handler,"ax",%progbits
+ 240              		.align	2
+ 241              		.global	receiver_timer_handler
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.type	receiver_timer_handler, %function
+ 245              	receiver_timer_handler:
+ 246              	.LFB64:
+  28:receiver.c    ****     receiveBit(false);
+ 247              		.loc 1 28 0
+ 248              		.cfi_startproc
+ 249              		@ args = 0, pretend = 0, frame = 0
+ 250              		@ frame_needed = 0, uses_anonymous_args = 0
+ 251 0000 08B5     		push	{r3, lr}
+ 252              		.cfi_def_cfa_offset 8
+ 253              		.cfi_offset 3, -8
+ 254              		.cfi_offset 14, -4
+  29:receiver.c    **** }
+ 255              		.loc 1 29 0
+ 256 0002 0020     		movs	r0, #0
+ 257 0004 FFF7FEFF 		bl	receiveBit
+ 258              	.LVL19:
+ 259 0008 08BD     		pop	{r3, pc}
+ 260              		.cfi_endproc
+ 261              	.LFE64:
+ 262              		.size	receiver_timer_handler, .-receiver_timer_handler
+ 263 000a 00BF     		.data
+ 264              		.align	2
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 7
 
 
- 124              		.cfi_endproc
- 125              	.LFE63:
- 126              		.size	receiver_rx_handler, .-receiver_rx_handler
- 127              		.section	.text.receiver_timer_handler,"ax",%progbits
- 128              		.align	2
- 129              		.global	receiver_timer_handler
- 130              		.thumb
- 131              		.thumb_func
- 132              		.type	receiver_timer_handler, %function
- 133              	receiver_timer_handler:
- 134              	.LFB64:
-  27:receiver.c    ****     receiveBit(false);
- 135              		.loc 1 27 0
- 136              		.cfi_startproc
- 137              		@ args = 0, pretend = 0, frame = 0
- 138              		@ frame_needed = 0, uses_anonymous_args = 0
- 139 0000 08B5     		push	{r3, lr}
- 140              		.cfi_def_cfa_offset 8
- 141              		.cfi_offset 3, -8
- 142              		.cfi_offset 14, -4
-  28:receiver.c    **** }
- 143              		.loc 1 28 0
- 144 0002 0020     		movs	r0, #0
- 145 0004 FFF7FEFF 		bl	receiveBit
- 146              	.LVL10:
- 147 0008 08BD     		pop	{r3, pc}
- 148              		.cfi_endproc
- 149              	.LFE64:
- 150              		.size	receiver_timer_handler, .-receiver_timer_handler
- 151 000a 00BF     		.data
- 152              		.align	2
- 153              		.set	.LANCHOR0,. + 0
- 154              		.type	currentBit.6068, %object
- 155              		.size	currentBit.6068, 4
- 156              	currentBit.6068:
- 157 0000 07000000 		.word	7
- 158              		.bss
- 159              		.set	.LANCHOR1,. + 0
- 160              		.type	c.6069, %object
- 161              		.size	c.6069, 1
- 162              	c.6069:
- 163 0000 00       		.space	1
- 164              		.text
- 165              	.Letext0:
- 166              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
- 167              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
- 168              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
- 169              		.file 5 "globals.h"
- 170              		.file 6 "Generated_Source\\PSoC5/RX_TIMER.h"
- 171              		.file 7 "Generated_Source\\PSoC5/USBUART_cdc.h"
- 172              		.file 8 "Generated_Source\\PSoC5/RX_PIN.h"
- 173              		.section	.debug_info,"",%progbits
- 174              	.Ldebug_info0:
- 175 0000 CC010000 		.4byte	0x1cc
- 176 0004 0400     		.2byte	0x4
- 177 0006 00000000 		.4byte	.Ldebug_abbrev0
- 178 000a 04       		.byte	0x4
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 5
+ 265              		.set	.LANCHOR1,. + 0
+ 266              		.type	currentBit.6070, %object
+ 267              		.size	currentBit.6070, 4
+ 268              	currentBit.6070:
+ 269 0000 07000000 		.word	7
+ 270              		.bss
+ 271              		.align	2
+ 272              		.set	.LANCHOR0,. + 0
+ 273              		.type	pos.6076, %object
+ 274              		.size	pos.6076, 4
+ 275              	pos.6076:
+ 276 0000 00000000 		.space	4
+ 277              		.type	message.6075, %object
+ 278              		.size	message.6075, 52
+ 279              	message.6075:
+ 280 0004 00000000 		.space	52
+ 280      00000000 
+ 280      00000000 
+ 280      00000000 
+ 280      00000000 
+ 281              		.type	c.6071, %object
+ 282              		.size	c.6071, 1
+ 283              	c.6071:
+ 284 0038 00       		.space	1
+ 285              		.text
+ 286              	.Letext0:
+ 287              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 288              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 289              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 290              		.file 5 "globals.h"
+ 291              		.file 6 "Generated_Source\\PSoC5/USBUART_cdc.h"
+ 292              		.file 7 "Generated_Source\\PSoC5/RX_TIMER.h"
+ 293              		.file 8 "Generated_Source\\PSoC5/RX_PIN.h"
+ 294              		.section	.debug_info,"",%progbits
+ 295              	.Ldebug_info0:
+ 296 0000 79020000 		.4byte	0x279
+ 297 0004 0400     		.2byte	0x4
+ 298 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 299 000a 04       		.byte	0x4
+ 300 000b 01       		.uleb128 0x1
+ 301 000c 8F000000 		.4byte	.LASF34
+ 302 0010 0C       		.byte	0xc
+ 303 0011 3F020000 		.4byte	.LASF35
+ 304 0015 1D010000 		.4byte	.LASF36
+ 305 0019 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 306 001d 00000000 		.4byte	0
+ 307 0021 00000000 		.4byte	.Ldebug_line0
+ 308 0025 02       		.uleb128 0x2
+ 309 0026 01       		.byte	0x1
+ 310 0027 06       		.byte	0x6
+ 311 0028 5F020000 		.4byte	.LASF0
+ 312 002c 03       		.uleb128 0x3
+ 313 002d 08000000 		.4byte	.LASF4
+ 314 0031 02       		.byte	0x2
+ 315 0032 1D       		.byte	0x1d
+ 316 0033 37000000 		.4byte	0x37
+ 317 0037 02       		.uleb128 0x2
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 8
 
 
- 179 000b 01       		.uleb128 0x1
- 180 000c 66000000 		.4byte	.LASF27
- 181 0010 0C       		.byte	0xc
- 182 0011 12020000 		.4byte	.LASF28
- 183 0015 F4000000 		.4byte	.LASF29
- 184 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 185 001d 00000000 		.4byte	0
- 186 0021 00000000 		.4byte	.Ldebug_line0
- 187 0025 02       		.uleb128 0x2
- 188 0026 01       		.byte	0x1
- 189 0027 06       		.byte	0x6
- 190 0028 32020000 		.4byte	.LASF0
- 191 002c 02       		.uleb128 0x2
- 192 002d 01       		.byte	0x1
- 193 002e 08       		.byte	0x8
- 194 002f 58000000 		.4byte	.LASF1
- 195 0033 02       		.uleb128 0x2
- 196 0034 02       		.byte	0x2
- 197 0035 05       		.byte	0x5
- 198 0036 FB010000 		.4byte	.LASF2
- 199 003a 02       		.uleb128 0x2
- 200 003b 02       		.byte	0x2
- 201 003c 07       		.byte	0x7
- 202 003d 44010000 		.4byte	.LASF3
- 203 0041 03       		.uleb128 0x3
- 204 0042 23000000 		.4byte	.LASF9
- 205 0046 02       		.byte	0x2
- 206 0047 3F       		.byte	0x3f
- 207 0048 4C000000 		.4byte	0x4c
- 208 004c 02       		.uleb128 0x2
- 209 004d 04       		.byte	0x4
- 210 004e 05       		.byte	0x5
- 211 004f 1D020000 		.4byte	.LASF4
- 212 0053 02       		.uleb128 0x2
- 213 0054 04       		.byte	0x4
- 214 0055 07       		.byte	0x7
- 215 0056 32010000 		.4byte	.LASF5
- 216 005a 02       		.uleb128 0x2
- 217 005b 08       		.byte	0x8
- 218 005c 05       		.byte	0x5
- 219 005d D4010000 		.4byte	.LASF6
- 220 0061 02       		.uleb128 0x2
- 221 0062 08       		.byte	0x8
- 222 0063 07       		.byte	0x7
- 223 0064 A1010000 		.4byte	.LASF7
- 224 0068 04       		.uleb128 0x4
- 225 0069 04       		.byte	0x4
- 226 006a 05       		.byte	0x5
- 227 006b 696E7400 		.ascii	"int\000"
- 228 006f 02       		.uleb128 0x2
- 229 0070 04       		.byte	0x4
- 230 0071 07       		.byte	0x7
- 231 0072 94010000 		.4byte	.LASF8
- 232 0076 03       		.uleb128 0x3
- 233 0077 C3010000 		.4byte	.LASF10
- 234 007b 03       		.byte	0x3
- 235 007c 2C       		.byte	0x2c
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 6
+ 318 0038 01       		.byte	0x1
+ 319 0039 08       		.byte	0x8
+ 320 003a 81000000 		.4byte	.LASF1
+ 321 003e 02       		.uleb128 0x2
+ 322 003f 02       		.byte	0x2
+ 323 0040 05       		.byte	0x5
+ 324 0041 28020000 		.4byte	.LASF2
+ 325 0045 02       		.uleb128 0x2
+ 326 0046 02       		.byte	0x2
+ 327 0047 07       		.byte	0x7
+ 328 0048 6D010000 		.4byte	.LASF3
+ 329 004c 03       		.uleb128 0x3
+ 330 004d 35000000 		.4byte	.LASF5
+ 331 0051 02       		.byte	0x2
+ 332 0052 3F       		.byte	0x3f
+ 333 0053 57000000 		.4byte	0x57
+ 334 0057 02       		.uleb128 0x2
+ 335 0058 04       		.byte	0x4
+ 336 0059 05       		.byte	0x5
+ 337 005a 4A020000 		.4byte	.LASF6
+ 338 005e 02       		.uleb128 0x2
+ 339 005f 04       		.byte	0x4
+ 340 0060 07       		.byte	0x7
+ 341 0061 5B010000 		.4byte	.LASF7
+ 342 0065 02       		.uleb128 0x2
+ 343 0066 08       		.byte	0x8
+ 344 0067 05       		.byte	0x5
+ 345 0068 01020000 		.4byte	.LASF8
+ 346 006c 02       		.uleb128 0x2
+ 347 006d 08       		.byte	0x8
+ 348 006e 07       		.byte	0x7
+ 349 006f C6010000 		.4byte	.LASF9
+ 350 0073 04       		.uleb128 0x4
+ 351 0074 04       		.byte	0x4
+ 352 0075 05       		.byte	0x5
+ 353 0076 696E7400 		.ascii	"int\000"
+ 354 007a 02       		.uleb128 0x2
+ 355 007b 04       		.byte	0x4
+ 356 007c 07       		.byte	0x7
+ 357 007d B9010000 		.4byte	.LASF10
+ 358 0081 03       		.uleb128 0x3
+ 359 0082 DD010000 		.4byte	.LASF11
+ 360 0086 03       		.byte	0x3
+ 361 0087 18       		.byte	0x18
+ 362 0088 2C000000 		.4byte	0x2c
+ 363 008c 03       		.uleb128 0x3
+ 364 008d F0010000 		.4byte	.LASF12
+ 365 0091 03       		.byte	0x3
+ 366 0092 2C       		.byte	0x2c
+ 367 0093 4C000000 		.4byte	0x4c
+ 368 0097 02       		.uleb128 0x2
+ 369 0098 04       		.byte	0x4
+ 370 0099 04       		.byte	0x4
+ 371 009a 6C000000 		.4byte	.LASF13
+ 372 009e 02       		.uleb128 0x2
+ 373 009f 08       		.byte	0x8
+ 374 00a0 04       		.byte	0x4
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 9
 
 
- 236 007d 41000000 		.4byte	0x41
- 237 0081 02       		.uleb128 0x2
- 238 0082 04       		.byte	0x4
- 239 0083 04       		.byte	0x4
- 240 0084 43000000 		.4byte	.LASF11
- 241 0088 02       		.uleb128 0x2
- 242 0089 08       		.byte	0x8
- 243 008a 04       		.byte	0x4
- 244 008b 65010000 		.4byte	.LASF12
- 245 008f 02       		.uleb128 0x2
- 246 0090 01       		.byte	0x1
- 247 0091 08       		.byte	0x8
- 248 0092 E2010000 		.4byte	.LASF13
- 249 0096 02       		.uleb128 0x2
- 250 0097 08       		.byte	0x8
- 251 0098 04       		.byte	0x4
- 252 0099 26020000 		.4byte	.LASF14
- 253 009d 02       		.uleb128 0x2
- 254 009e 04       		.byte	0x4
- 255 009f 07       		.byte	0x7
- 256 00a0 CB010000 		.4byte	.LASF15
- 257 00a4 05       		.uleb128 0x5
- 258 00a5 6C010000 		.4byte	.LASF30
- 259 00a9 01       		.byte	0x1
- 260 00aa 1F       		.byte	0x1f
- 261 00ab 00000000 		.4byte	.LFB65
- 262 00af 48000000 		.4byte	.LFE65-.LFB65
- 263 00b3 01       		.uleb128 0x1
- 264 00b4 9C       		.byte	0x9c
- 265 00b5 FB000000 		.4byte	0xfb
- 266 00b9 06       		.uleb128 0x6
- 267 00ba 62697400 		.ascii	"bit\000"
- 268 00be 01       		.byte	0x1
- 269 00bf 1F       		.byte	0x1f
- 270 00c0 FB000000 		.4byte	0xfb
- 271 00c4 00000000 		.4byte	.LLST0
- 272 00c8 07       		.uleb128 0x7
- 273 00c9 B8010000 		.4byte	.LASF16
- 274 00cd 01       		.byte	0x1
- 275 00ce 20       		.byte	0x20
- 276 00cf 68000000 		.4byte	0x68
- 277 00d3 05       		.uleb128 0x5
- 278 00d4 03       		.byte	0x3
- 279 00d5 00000000 		.4byte	currentBit.6068
- 280 00d9 08       		.uleb128 0x8
- 281 00da 6300     		.ascii	"c\000"
- 282 00dc 01       		.byte	0x1
- 283 00dd 21       		.byte	0x21
- 284 00de 8F000000 		.4byte	0x8f
- 285 00e2 05       		.uleb128 0x5
- 286 00e3 03       		.byte	0x3
- 287 00e4 00000000 		.4byte	c.6069
- 288 00e8 09       		.uleb128 0x9
- 289 00e9 22000000 		.4byte	.LVL2
- 290 00ed 98010000 		.4byte	0x198
- 291 00f1 09       		.uleb128 0x9
- 292 00f2 2E000000 		.4byte	.LVL3
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 7
+ 375 00a1 8E010000 		.4byte	.LASF14
+ 376 00a5 02       		.uleb128 0x2
+ 377 00a6 01       		.byte	0x1
+ 378 00a7 08       		.byte	0x8
+ 379 00a8 0F020000 		.4byte	.LASF15
+ 380 00ac 02       		.uleb128 0x2
+ 381 00ad 08       		.byte	0x8
+ 382 00ae 04       		.byte	0x4
+ 383 00af 53020000 		.4byte	.LASF16
+ 384 00b3 02       		.uleb128 0x2
+ 385 00b4 04       		.byte	0x4
+ 386 00b5 07       		.byte	0x7
+ 387 00b6 F8010000 		.4byte	.LASF17
+ 388 00ba 05       		.uleb128 0x5
+ 389 00bb AD010000 		.4byte	.LASF20
+ 390 00bf 01       		.byte	0x1
+ 391 00c0 30       		.byte	0x30
+ 392 00c1 00000000 		.4byte	.LFB66
+ 393 00c5 78000000 		.4byte	.LFE66-.LFB66
+ 394 00c9 01       		.uleb128 0x1
+ 395 00ca 9C       		.byte	0x9c
+ 396 00cb 41010000 		.4byte	0x141
+ 397 00cf 06       		.uleb128 0x6
+ 398 00d0 67000000 		.4byte	.LASF22
+ 399 00d4 01       		.byte	0x1
+ 400 00d5 30       		.byte	0x30
+ 401 00d6 81000000 		.4byte	0x81
+ 402 00da 00000000 		.4byte	.LLST0
+ 403 00de 07       		.uleb128 0x7
+ 404 00df 00000000 		.4byte	.LASF18
+ 405 00e3 01       		.byte	0x1
+ 406 00e4 31       		.byte	0x31
+ 407 00e5 41010000 		.4byte	0x141
+ 408 00e9 05       		.uleb128 0x5
+ 409 00ea 03       		.byte	0x3
+ 410 00eb 04000000 		.4byte	message.6075
+ 411 00ef 08       		.uleb128 0x8
+ 412 00f0 706F7300 		.ascii	"pos\000"
+ 413 00f4 01       		.byte	0x1
+ 414 00f5 32       		.byte	0x32
+ 415 00f6 73000000 		.4byte	0x73
+ 416 00fa 05       		.uleb128 0x5
+ 417 00fb 03       		.byte	0x3
+ 418 00fc 00000000 		.4byte	pos.6076
+ 419 0100 09       		.uleb128 0x9
+ 420 0101 36000000 		.4byte	.LBB2
+ 421 0105 42000000 		.4byte	.LBE2-.LBB2
+ 422 0109 0A       		.uleb128 0xa
+ 423 010a 6B020000 		.4byte	.LASF19
+ 424 010e 01       		.byte	0x1
+ 425 010f 39       		.byte	0x39
+ 426 0110 73000000 		.4byte	0x73
+ 427 0114 59000000 		.4byte	.LLST1
+ 428 0118 0B       		.uleb128 0xb
+ 429 0119 00000000 		.4byte	.Ldebug_ranges0+0
+ 430 011d 2F010000 		.4byte	0x12f
+ 431 0121 0C       		.uleb128 0xc
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 10
 
 
- 293 00f6 A3010000 		.4byte	0x1a3
- 294 00fa 00       		.byte	0
- 295 00fb 02       		.uleb128 0x2
- 296 00fc 01       		.byte	0x1
- 297 00fd 02       		.byte	0x2
- 298 00fe 3E020000 		.4byte	.LASF17
- 299 0102 0A       		.uleb128 0xa
- 300 0103 E7010000 		.4byte	.LASF18
- 301 0107 01       		.byte	0x1
- 302 0108 14       		.byte	0x14
- 303 0109 00000000 		.4byte	.LFB63
- 304 010d 20000000 		.4byte	.LFE63-.LFB63
- 305 0111 01       		.uleb128 0x1
- 306 0112 9C       		.byte	0x9c
- 307 0113 57010000 		.4byte	0x157
- 308 0117 09       		.uleb128 0x9
- 309 0118 06000000 		.4byte	.LVL5
- 310 011c AE010000 		.4byte	0x1ae
- 311 0120 09       		.uleb128 0x9
- 312 0121 0C000000 		.4byte	.LVL6
- 313 0125 98010000 		.4byte	0x198
- 314 0129 0B       		.uleb128 0xb
- 315 012a 14000000 		.4byte	.LVL7
- 316 012e B9010000 		.4byte	0x1b9
- 317 0132 3E010000 		.4byte	0x13e
- 318 0136 0C       		.uleb128 0xc
- 319 0137 01       		.uleb128 0x1
- 320 0138 50       		.byte	0x50
- 321 0139 03       		.uleb128 0x3
- 322 013a 0A       		.byte	0xa
- 323 013b 2067     		.2byte	0x6720
- 324 013d 00       		.byte	0
- 325 013e 09       		.uleb128 0x9
- 326 013f 18000000 		.4byte	.LVL8
- 327 0143 C4010000 		.4byte	0x1c4
- 328 0147 0D       		.uleb128 0xd
- 329 0148 1E000000 		.4byte	.LVL9
- 330 014c A4000000 		.4byte	0xa4
- 331 0150 0C       		.uleb128 0xc
- 332 0151 01       		.uleb128 0x1
- 333 0152 50       		.byte	0x50
- 334 0153 01       		.uleb128 0x1
- 335 0154 31       		.byte	0x31
- 336 0155 00       		.byte	0
- 337 0156 00       		.byte	0
- 338 0157 0A       		.uleb128 0xa
- 339 0158 00000000 		.4byte	.LASF19
- 340 015c 01       		.byte	0x1
- 341 015d 1B       		.byte	0x1b
- 342 015e 00000000 		.4byte	.LFB64
- 343 0162 0A000000 		.4byte	.LFE64-.LFB64
- 344 0166 01       		.uleb128 0x1
- 345 0167 9C       		.byte	0x9c
- 346 0168 7C010000 		.4byte	0x17c
- 347 016c 0D       		.uleb128 0xd
- 348 016d 08000000 		.4byte	.LVL10
- 349 0171 A4000000 		.4byte	0xa4
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 8
+ 432 0122 6900     		.ascii	"i\000"
+ 433 0124 01       		.byte	0x1
+ 434 0125 3B       		.byte	0x3b
+ 435 0126 73000000 		.4byte	0x73
+ 436 012a 7F000000 		.4byte	.LLST2
+ 437 012e 00       		.byte	0
+ 438 012f 0D       		.uleb128 0xd
+ 439 0130 70000000 		.4byte	.LVL8
+ 440 0134 45020000 		.4byte	0x245
+ 441 0138 0E       		.uleb128 0xe
+ 442 0139 01       		.uleb128 0x1
+ 443 013a 50       		.byte	0x50
+ 444 013b 02       		.uleb128 0x2
+ 445 013c 74       		.byte	0x74
+ 446 013d 0B       		.sleb128 11
+ 447 013e 00       		.byte	0
+ 448 013f 00       		.byte	0
+ 449 0140 00       		.byte	0
+ 450 0141 0F       		.uleb128 0xf
+ 451 0142 81000000 		.4byte	0x81
+ 452 0146 51010000 		.4byte	0x151
+ 453 014a 10       		.uleb128 0x10
+ 454 014b B3000000 		.4byte	0xb3
+ 455 014f 33       		.byte	0x33
+ 456 0150 00       		.byte	0
+ 457 0151 05       		.uleb128 0x5
+ 458 0152 95010000 		.4byte	.LASF21
+ 459 0156 01       		.byte	0x1
+ 460 0157 20       		.byte	0x20
+ 461 0158 00000000 		.4byte	.LFB65
+ 462 015c 4C000000 		.4byte	.LFE65-.LFB65
+ 463 0160 01       		.uleb128 0x1
+ 464 0161 9C       		.byte	0x9c
+ 465 0162 A8010000 		.4byte	0x1a8
+ 466 0166 11       		.uleb128 0x11
+ 467 0167 62697400 		.ascii	"bit\000"
+ 468 016b 01       		.byte	0x1
+ 469 016c 20       		.byte	0x20
+ 470 016d A8010000 		.4byte	0x1a8
+ 471 0171 9D000000 		.4byte	.LLST3
+ 472 0175 07       		.uleb128 0x7
+ 473 0176 E5010000 		.4byte	.LASF23
+ 474 017a 01       		.byte	0x1
+ 475 017b 21       		.byte	0x21
+ 476 017c 73000000 		.4byte	0x73
+ 477 0180 05       		.uleb128 0x5
+ 478 0181 03       		.byte	0x3
+ 479 0182 00000000 		.4byte	currentBit.6070
+ 480 0186 08       		.uleb128 0x8
+ 481 0187 6300     		.ascii	"c\000"
+ 482 0189 01       		.byte	0x1
+ 483 018a 22       		.byte	0x22
+ 484 018b A5000000 		.4byte	0xa5
+ 485 018f 05       		.uleb128 0x5
+ 486 0190 03       		.byte	0x3
+ 487 0191 38000000 		.4byte	c.6071
+ 488 0195 12       		.uleb128 0x12
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 11
 
 
- 350 0175 0C       		.uleb128 0xc
- 351 0176 01       		.uleb128 0x1
- 352 0177 50       		.byte	0x50
- 353 0178 01       		.uleb128 0x1
- 354 0179 30       		.byte	0x30
- 355 017a 00       		.byte	0
- 356 017b 00       		.byte	0
- 357 017c 0E       		.uleb128 0xe
- 358 017d 87010000 		.4byte	.LASF20
- 359 0181 04       		.byte	0x4
- 360 0182 1207     		.2byte	0x712
- 361 0184 88010000 		.4byte	0x188
- 362 0188 0F       		.uleb128 0xf
- 363 0189 76000000 		.4byte	0x76
- 364 018d 10       		.uleb128 0x10
- 365 018e 05020000 		.4byte	.LASF21
- 366 0192 05       		.byte	0x5
- 367 0193 12       		.byte	0x12
- 368 0194 FB000000 		.4byte	0xfb
- 369 0198 11       		.uleb128 0x11
- 370 0199 57010000 		.4byte	.LASF22
- 371 019d 57010000 		.4byte	.LASF22
- 372 01a1 06       		.byte	0x6
- 373 01a2 5B       		.byte	0x5b
- 374 01a3 11       		.uleb128 0x11
- 375 01a4 77010000 		.4byte	.LASF23
- 376 01a8 77010000 		.4byte	.LASF23
- 377 01ac 07       		.byte	0x7
- 378 01ad 25       		.byte	0x25
- 379 01ae 11       		.uleb128 0x11
- 380 01af 17000000 		.4byte	.LASF24
- 381 01b3 17000000 		.4byte	.LASF24
- 382 01b7 08       		.byte	0x8
- 383 01b8 29       		.byte	0x29
- 384 01b9 11       		.uleb128 0x11
- 385 01ba 2D000000 		.4byte	.LASF25
- 386 01be 2D000000 		.4byte	.LASF25
- 387 01c2 06       		.byte	0x6
- 388 01c3 6A       		.byte	0x6a
- 389 01c4 11       		.uleb128 0x11
- 390 01c5 49000000 		.4byte	.LASF26
- 391 01c9 49000000 		.4byte	.LASF26
- 392 01cd 06       		.byte	0x6
- 393 01ce 5A       		.byte	0x5a
- 394 01cf 00       		.byte	0
- 395              		.section	.debug_abbrev,"",%progbits
- 396              	.Ldebug_abbrev0:
- 397 0000 01       		.uleb128 0x1
- 398 0001 11       		.uleb128 0x11
- 399 0002 01       		.byte	0x1
- 400 0003 25       		.uleb128 0x25
- 401 0004 0E       		.uleb128 0xe
- 402 0005 13       		.uleb128 0x13
- 403 0006 0B       		.uleb128 0xb
- 404 0007 03       		.uleb128 0x3
- 405 0008 0E       		.uleb128 0xe
- 406 0009 1B       		.uleb128 0x1b
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 9
+ 489 0196 26000000 		.4byte	.LVL11
+ 490 019a 50020000 		.4byte	0x250
+ 491 019e 12       		.uleb128 0x12
+ 492 019f 30000000 		.4byte	.LVL12
+ 493 01a3 BA000000 		.4byte	0xba
+ 494 01a7 00       		.byte	0
+ 495 01a8 02       		.uleb128 0x2
+ 496 01a9 01       		.byte	0x1
+ 497 01aa 02       		.byte	0x2
+ 498 01ab 74020000 		.4byte	.LASF24
+ 499 01af 13       		.uleb128 0x13
+ 500 01b0 14020000 		.4byte	.LASF25
+ 501 01b4 01       		.byte	0x1
+ 502 01b5 15       		.byte	0x15
+ 503 01b6 00000000 		.4byte	.LFB63
+ 504 01ba 20000000 		.4byte	.LFE63-.LFB63
+ 505 01be 01       		.uleb128 0x1
+ 506 01bf 9C       		.byte	0x9c
+ 507 01c0 04020000 		.4byte	0x204
+ 508 01c4 12       		.uleb128 0x12
+ 509 01c5 06000000 		.4byte	.LVL14
+ 510 01c9 5B020000 		.4byte	0x25b
+ 511 01cd 12       		.uleb128 0x12
+ 512 01ce 0C000000 		.4byte	.LVL15
+ 513 01d2 50020000 		.4byte	0x250
+ 514 01d6 14       		.uleb128 0x14
+ 515 01d7 14000000 		.4byte	.LVL16
+ 516 01db 66020000 		.4byte	0x266
+ 517 01df EB010000 		.4byte	0x1eb
+ 518 01e3 0E       		.uleb128 0xe
+ 519 01e4 01       		.uleb128 0x1
+ 520 01e5 50       		.byte	0x50
+ 521 01e6 03       		.uleb128 0x3
+ 522 01e7 0A       		.byte	0xa
+ 523 01e8 2067     		.2byte	0x6720
+ 524 01ea 00       		.byte	0
+ 525 01eb 12       		.uleb128 0x12
+ 526 01ec 18000000 		.4byte	.LVL17
+ 527 01f0 71020000 		.4byte	0x271
+ 528 01f4 0D       		.uleb128 0xd
+ 529 01f5 1E000000 		.4byte	.LVL18
+ 530 01f9 51010000 		.4byte	0x151
+ 531 01fd 0E       		.uleb128 0xe
+ 532 01fe 01       		.uleb128 0x1
+ 533 01ff 50       		.byte	0x50
+ 534 0200 01       		.uleb128 0x1
+ 535 0201 31       		.byte	0x31
+ 536 0202 00       		.byte	0
+ 537 0203 00       		.byte	0
+ 538 0204 13       		.uleb128 0x13
+ 539 0205 12000000 		.4byte	.LASF26
+ 540 0209 01       		.byte	0x1
+ 541 020a 1C       		.byte	0x1c
+ 542 020b 00000000 		.4byte	.LFB64
+ 543 020f 0A000000 		.4byte	.LFE64-.LFB64
+ 544 0213 01       		.uleb128 0x1
+ 545 0214 9C       		.byte	0x9c
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 12
 
 
- 407 000a 0E       		.uleb128 0xe
- 408 000b 55       		.uleb128 0x55
- 409 000c 17       		.uleb128 0x17
- 410 000d 11       		.uleb128 0x11
- 411 000e 01       		.uleb128 0x1
- 412 000f 10       		.uleb128 0x10
- 413 0010 17       		.uleb128 0x17
- 414 0011 00       		.byte	0
- 415 0012 00       		.byte	0
- 416 0013 02       		.uleb128 0x2
- 417 0014 24       		.uleb128 0x24
- 418 0015 00       		.byte	0
- 419 0016 0B       		.uleb128 0xb
- 420 0017 0B       		.uleb128 0xb
- 421 0018 3E       		.uleb128 0x3e
- 422 0019 0B       		.uleb128 0xb
- 423 001a 03       		.uleb128 0x3
- 424 001b 0E       		.uleb128 0xe
- 425 001c 00       		.byte	0
- 426 001d 00       		.byte	0
- 427 001e 03       		.uleb128 0x3
- 428 001f 16       		.uleb128 0x16
- 429 0020 00       		.byte	0
- 430 0021 03       		.uleb128 0x3
- 431 0022 0E       		.uleb128 0xe
- 432 0023 3A       		.uleb128 0x3a
- 433 0024 0B       		.uleb128 0xb
- 434 0025 3B       		.uleb128 0x3b
- 435 0026 0B       		.uleb128 0xb
- 436 0027 49       		.uleb128 0x49
- 437 0028 13       		.uleb128 0x13
- 438 0029 00       		.byte	0
- 439 002a 00       		.byte	0
- 440 002b 04       		.uleb128 0x4
- 441 002c 24       		.uleb128 0x24
- 442 002d 00       		.byte	0
- 443 002e 0B       		.uleb128 0xb
- 444 002f 0B       		.uleb128 0xb
- 445 0030 3E       		.uleb128 0x3e
- 446 0031 0B       		.uleb128 0xb
- 447 0032 03       		.uleb128 0x3
- 448 0033 08       		.uleb128 0x8
- 449 0034 00       		.byte	0
- 450 0035 00       		.byte	0
- 451 0036 05       		.uleb128 0x5
- 452 0037 2E       		.uleb128 0x2e
- 453 0038 01       		.byte	0x1
- 454 0039 3F       		.uleb128 0x3f
- 455 003a 19       		.uleb128 0x19
- 456 003b 03       		.uleb128 0x3
- 457 003c 0E       		.uleb128 0xe
- 458 003d 3A       		.uleb128 0x3a
- 459 003e 0B       		.uleb128 0xb
- 460 003f 3B       		.uleb128 0x3b
- 461 0040 0B       		.uleb128 0xb
- 462 0041 27       		.uleb128 0x27
- 463 0042 19       		.uleb128 0x19
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 10
+ 546 0215 29020000 		.4byte	0x229
+ 547 0219 0D       		.uleb128 0xd
+ 548 021a 08000000 		.4byte	.LVL19
+ 549 021e 51010000 		.4byte	0x151
+ 550 0222 0E       		.uleb128 0xe
+ 551 0223 01       		.uleb128 0x1
+ 552 0224 50       		.byte	0x50
+ 553 0225 01       		.uleb128 0x1
+ 554 0226 30       		.byte	0x30
+ 555 0227 00       		.byte	0
+ 556 0228 00       		.byte	0
+ 557 0229 15       		.uleb128 0x15
+ 558 022a A0010000 		.4byte	.LASF27
+ 559 022e 04       		.byte	0x4
+ 560 022f 1207     		.2byte	0x712
+ 561 0231 35020000 		.4byte	0x235
+ 562 0235 16       		.uleb128 0x16
+ 563 0236 8C000000 		.4byte	0x8c
+ 564 023a 17       		.uleb128 0x17
+ 565 023b 32020000 		.4byte	.LASF28
+ 566 023f 05       		.byte	0x5
+ 567 0240 12       		.byte	0x12
+ 568 0241 A8010000 		.4byte	0x1a8
+ 569 0245 18       		.uleb128 0x18
+ 570 0246 55000000 		.4byte	.LASF29
+ 571 024a 55000000 		.4byte	.LASF29
+ 572 024e 06       		.byte	0x6
+ 573 024f 24       		.byte	0x24
+ 574 0250 18       		.uleb128 0x18
+ 575 0251 80010000 		.4byte	.LASF30
+ 576 0255 80010000 		.4byte	.LASF30
+ 577 0259 07       		.byte	0x7
+ 578 025a 5B       		.byte	0x5b
+ 579 025b 18       		.uleb128 0x18
+ 580 025c 29000000 		.4byte	.LASF31
+ 581 0260 29000000 		.4byte	.LASF31
+ 582 0264 08       		.byte	0x8
+ 583 0265 29       		.byte	0x29
+ 584 0266 18       		.uleb128 0x18
+ 585 0267 3F000000 		.4byte	.LASF32
+ 586 026b 3F000000 		.4byte	.LASF32
+ 587 026f 07       		.byte	0x7
+ 588 0270 6A       		.byte	0x6a
+ 589 0271 18       		.uleb128 0x18
+ 590 0272 72000000 		.4byte	.LASF33
+ 591 0276 72000000 		.4byte	.LASF33
+ 592 027a 07       		.byte	0x7
+ 593 027b 5A       		.byte	0x5a
+ 594 027c 00       		.byte	0
+ 595              		.section	.debug_abbrev,"",%progbits
+ 596              	.Ldebug_abbrev0:
+ 597 0000 01       		.uleb128 0x1
+ 598 0001 11       		.uleb128 0x11
+ 599 0002 01       		.byte	0x1
+ 600 0003 25       		.uleb128 0x25
+ 601 0004 0E       		.uleb128 0xe
+ 602 0005 13       		.uleb128 0x13
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 13
 
 
- 464 0043 11       		.uleb128 0x11
- 465 0044 01       		.uleb128 0x1
- 466 0045 12       		.uleb128 0x12
- 467 0046 06       		.uleb128 0x6
- 468 0047 40       		.uleb128 0x40
- 469 0048 18       		.uleb128 0x18
- 470 0049 9742     		.uleb128 0x2117
- 471 004b 19       		.uleb128 0x19
- 472 004c 01       		.uleb128 0x1
- 473 004d 13       		.uleb128 0x13
- 474 004e 00       		.byte	0
- 475 004f 00       		.byte	0
- 476 0050 06       		.uleb128 0x6
- 477 0051 05       		.uleb128 0x5
- 478 0052 00       		.byte	0
- 479 0053 03       		.uleb128 0x3
- 480 0054 08       		.uleb128 0x8
- 481 0055 3A       		.uleb128 0x3a
- 482 0056 0B       		.uleb128 0xb
- 483 0057 3B       		.uleb128 0x3b
- 484 0058 0B       		.uleb128 0xb
- 485 0059 49       		.uleb128 0x49
- 486 005a 13       		.uleb128 0x13
- 487 005b 02       		.uleb128 0x2
- 488 005c 17       		.uleb128 0x17
- 489 005d 00       		.byte	0
- 490 005e 00       		.byte	0
- 491 005f 07       		.uleb128 0x7
- 492 0060 34       		.uleb128 0x34
- 493 0061 00       		.byte	0
- 494 0062 03       		.uleb128 0x3
- 495 0063 0E       		.uleb128 0xe
- 496 0064 3A       		.uleb128 0x3a
- 497 0065 0B       		.uleb128 0xb
- 498 0066 3B       		.uleb128 0x3b
- 499 0067 0B       		.uleb128 0xb
- 500 0068 49       		.uleb128 0x49
- 501 0069 13       		.uleb128 0x13
- 502 006a 02       		.uleb128 0x2
- 503 006b 18       		.uleb128 0x18
- 504 006c 00       		.byte	0
- 505 006d 00       		.byte	0
- 506 006e 08       		.uleb128 0x8
- 507 006f 34       		.uleb128 0x34
- 508 0070 00       		.byte	0
- 509 0071 03       		.uleb128 0x3
- 510 0072 08       		.uleb128 0x8
- 511 0073 3A       		.uleb128 0x3a
- 512 0074 0B       		.uleb128 0xb
- 513 0075 3B       		.uleb128 0x3b
- 514 0076 0B       		.uleb128 0xb
- 515 0077 49       		.uleb128 0x49
- 516 0078 13       		.uleb128 0x13
- 517 0079 02       		.uleb128 0x2
- 518 007a 18       		.uleb128 0x18
- 519 007b 00       		.byte	0
- 520 007c 00       		.byte	0
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 11
+ 603 0006 0B       		.uleb128 0xb
+ 604 0007 03       		.uleb128 0x3
+ 605 0008 0E       		.uleb128 0xe
+ 606 0009 1B       		.uleb128 0x1b
+ 607 000a 0E       		.uleb128 0xe
+ 608 000b 55       		.uleb128 0x55
+ 609 000c 17       		.uleb128 0x17
+ 610 000d 11       		.uleb128 0x11
+ 611 000e 01       		.uleb128 0x1
+ 612 000f 10       		.uleb128 0x10
+ 613 0010 17       		.uleb128 0x17
+ 614 0011 00       		.byte	0
+ 615 0012 00       		.byte	0
+ 616 0013 02       		.uleb128 0x2
+ 617 0014 24       		.uleb128 0x24
+ 618 0015 00       		.byte	0
+ 619 0016 0B       		.uleb128 0xb
+ 620 0017 0B       		.uleb128 0xb
+ 621 0018 3E       		.uleb128 0x3e
+ 622 0019 0B       		.uleb128 0xb
+ 623 001a 03       		.uleb128 0x3
+ 624 001b 0E       		.uleb128 0xe
+ 625 001c 00       		.byte	0
+ 626 001d 00       		.byte	0
+ 627 001e 03       		.uleb128 0x3
+ 628 001f 16       		.uleb128 0x16
+ 629 0020 00       		.byte	0
+ 630 0021 03       		.uleb128 0x3
+ 631 0022 0E       		.uleb128 0xe
+ 632 0023 3A       		.uleb128 0x3a
+ 633 0024 0B       		.uleb128 0xb
+ 634 0025 3B       		.uleb128 0x3b
+ 635 0026 0B       		.uleb128 0xb
+ 636 0027 49       		.uleb128 0x49
+ 637 0028 13       		.uleb128 0x13
+ 638 0029 00       		.byte	0
+ 639 002a 00       		.byte	0
+ 640 002b 04       		.uleb128 0x4
+ 641 002c 24       		.uleb128 0x24
+ 642 002d 00       		.byte	0
+ 643 002e 0B       		.uleb128 0xb
+ 644 002f 0B       		.uleb128 0xb
+ 645 0030 3E       		.uleb128 0x3e
+ 646 0031 0B       		.uleb128 0xb
+ 647 0032 03       		.uleb128 0x3
+ 648 0033 08       		.uleb128 0x8
+ 649 0034 00       		.byte	0
+ 650 0035 00       		.byte	0
+ 651 0036 05       		.uleb128 0x5
+ 652 0037 2E       		.uleb128 0x2e
+ 653 0038 01       		.byte	0x1
+ 654 0039 3F       		.uleb128 0x3f
+ 655 003a 19       		.uleb128 0x19
+ 656 003b 03       		.uleb128 0x3
+ 657 003c 0E       		.uleb128 0xe
+ 658 003d 3A       		.uleb128 0x3a
+ 659 003e 0B       		.uleb128 0xb
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 14
 
 
- 521 007d 09       		.uleb128 0x9
- 522 007e 898201   		.uleb128 0x4109
- 523 0081 00       		.byte	0
- 524 0082 11       		.uleb128 0x11
- 525 0083 01       		.uleb128 0x1
- 526 0084 31       		.uleb128 0x31
- 527 0085 13       		.uleb128 0x13
- 528 0086 00       		.byte	0
- 529 0087 00       		.byte	0
- 530 0088 0A       		.uleb128 0xa
- 531 0089 2E       		.uleb128 0x2e
- 532 008a 01       		.byte	0x1
- 533 008b 3F       		.uleb128 0x3f
- 534 008c 19       		.uleb128 0x19
- 535 008d 03       		.uleb128 0x3
- 536 008e 0E       		.uleb128 0xe
- 537 008f 3A       		.uleb128 0x3a
- 538 0090 0B       		.uleb128 0xb
- 539 0091 3B       		.uleb128 0x3b
- 540 0092 0B       		.uleb128 0xb
- 541 0093 11       		.uleb128 0x11
- 542 0094 01       		.uleb128 0x1
- 543 0095 12       		.uleb128 0x12
- 544 0096 06       		.uleb128 0x6
- 545 0097 40       		.uleb128 0x40
- 546 0098 18       		.uleb128 0x18
- 547 0099 9742     		.uleb128 0x2117
- 548 009b 19       		.uleb128 0x19
- 549 009c 01       		.uleb128 0x1
- 550 009d 13       		.uleb128 0x13
- 551 009e 00       		.byte	0
- 552 009f 00       		.byte	0
- 553 00a0 0B       		.uleb128 0xb
- 554 00a1 898201   		.uleb128 0x4109
- 555 00a4 01       		.byte	0x1
- 556 00a5 11       		.uleb128 0x11
- 557 00a6 01       		.uleb128 0x1
- 558 00a7 31       		.uleb128 0x31
- 559 00a8 13       		.uleb128 0x13
- 560 00a9 01       		.uleb128 0x1
- 561 00aa 13       		.uleb128 0x13
- 562 00ab 00       		.byte	0
- 563 00ac 00       		.byte	0
- 564 00ad 0C       		.uleb128 0xc
- 565 00ae 8A8201   		.uleb128 0x410a
- 566 00b1 00       		.byte	0
- 567 00b2 02       		.uleb128 0x2
- 568 00b3 18       		.uleb128 0x18
- 569 00b4 9142     		.uleb128 0x2111
- 570 00b6 18       		.uleb128 0x18
- 571 00b7 00       		.byte	0
- 572 00b8 00       		.byte	0
- 573 00b9 0D       		.uleb128 0xd
- 574 00ba 898201   		.uleb128 0x4109
- 575 00bd 01       		.byte	0x1
- 576 00be 11       		.uleb128 0x11
- 577 00bf 01       		.uleb128 0x1
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 12
+ 660 003f 3B       		.uleb128 0x3b
+ 661 0040 0B       		.uleb128 0xb
+ 662 0041 27       		.uleb128 0x27
+ 663 0042 19       		.uleb128 0x19
+ 664 0043 11       		.uleb128 0x11
+ 665 0044 01       		.uleb128 0x1
+ 666 0045 12       		.uleb128 0x12
+ 667 0046 06       		.uleb128 0x6
+ 668 0047 40       		.uleb128 0x40
+ 669 0048 18       		.uleb128 0x18
+ 670 0049 9742     		.uleb128 0x2117
+ 671 004b 19       		.uleb128 0x19
+ 672 004c 01       		.uleb128 0x1
+ 673 004d 13       		.uleb128 0x13
+ 674 004e 00       		.byte	0
+ 675 004f 00       		.byte	0
+ 676 0050 06       		.uleb128 0x6
+ 677 0051 05       		.uleb128 0x5
+ 678 0052 00       		.byte	0
+ 679 0053 03       		.uleb128 0x3
+ 680 0054 0E       		.uleb128 0xe
+ 681 0055 3A       		.uleb128 0x3a
+ 682 0056 0B       		.uleb128 0xb
+ 683 0057 3B       		.uleb128 0x3b
+ 684 0058 0B       		.uleb128 0xb
+ 685 0059 49       		.uleb128 0x49
+ 686 005a 13       		.uleb128 0x13
+ 687 005b 02       		.uleb128 0x2
+ 688 005c 17       		.uleb128 0x17
+ 689 005d 00       		.byte	0
+ 690 005e 00       		.byte	0
+ 691 005f 07       		.uleb128 0x7
+ 692 0060 34       		.uleb128 0x34
+ 693 0061 00       		.byte	0
+ 694 0062 03       		.uleb128 0x3
+ 695 0063 0E       		.uleb128 0xe
+ 696 0064 3A       		.uleb128 0x3a
+ 697 0065 0B       		.uleb128 0xb
+ 698 0066 3B       		.uleb128 0x3b
+ 699 0067 0B       		.uleb128 0xb
+ 700 0068 49       		.uleb128 0x49
+ 701 0069 13       		.uleb128 0x13
+ 702 006a 02       		.uleb128 0x2
+ 703 006b 18       		.uleb128 0x18
+ 704 006c 00       		.byte	0
+ 705 006d 00       		.byte	0
+ 706 006e 08       		.uleb128 0x8
+ 707 006f 34       		.uleb128 0x34
+ 708 0070 00       		.byte	0
+ 709 0071 03       		.uleb128 0x3
+ 710 0072 08       		.uleb128 0x8
+ 711 0073 3A       		.uleb128 0x3a
+ 712 0074 0B       		.uleb128 0xb
+ 713 0075 3B       		.uleb128 0x3b
+ 714 0076 0B       		.uleb128 0xb
+ 715 0077 49       		.uleb128 0x49
+ 716 0078 13       		.uleb128 0x13
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 15
 
 
- 578 00c0 31       		.uleb128 0x31
- 579 00c1 13       		.uleb128 0x13
- 580 00c2 00       		.byte	0
- 581 00c3 00       		.byte	0
- 582 00c4 0E       		.uleb128 0xe
- 583 00c5 34       		.uleb128 0x34
- 584 00c6 00       		.byte	0
- 585 00c7 03       		.uleb128 0x3
- 586 00c8 0E       		.uleb128 0xe
- 587 00c9 3A       		.uleb128 0x3a
- 588 00ca 0B       		.uleb128 0xb
- 589 00cb 3B       		.uleb128 0x3b
- 590 00cc 05       		.uleb128 0x5
- 591 00cd 49       		.uleb128 0x49
- 592 00ce 13       		.uleb128 0x13
- 593 00cf 3F       		.uleb128 0x3f
- 594 00d0 19       		.uleb128 0x19
- 595 00d1 3C       		.uleb128 0x3c
- 596 00d2 19       		.uleb128 0x19
- 597 00d3 00       		.byte	0
- 598 00d4 00       		.byte	0
- 599 00d5 0F       		.uleb128 0xf
- 600 00d6 35       		.uleb128 0x35
- 601 00d7 00       		.byte	0
- 602 00d8 49       		.uleb128 0x49
- 603 00d9 13       		.uleb128 0x13
- 604 00da 00       		.byte	0
- 605 00db 00       		.byte	0
- 606 00dc 10       		.uleb128 0x10
- 607 00dd 34       		.uleb128 0x34
- 608 00de 00       		.byte	0
- 609 00df 03       		.uleb128 0x3
- 610 00e0 0E       		.uleb128 0xe
- 611 00e1 3A       		.uleb128 0x3a
- 612 00e2 0B       		.uleb128 0xb
- 613 00e3 3B       		.uleb128 0x3b
- 614 00e4 0B       		.uleb128 0xb
- 615 00e5 49       		.uleb128 0x49
- 616 00e6 13       		.uleb128 0x13
- 617 00e7 3F       		.uleb128 0x3f
- 618 00e8 19       		.uleb128 0x19
- 619 00e9 3C       		.uleb128 0x3c
- 620 00ea 19       		.uleb128 0x19
- 621 00eb 00       		.byte	0
- 622 00ec 00       		.byte	0
- 623 00ed 11       		.uleb128 0x11
- 624 00ee 2E       		.uleb128 0x2e
- 625 00ef 00       		.byte	0
- 626 00f0 3F       		.uleb128 0x3f
- 627 00f1 19       		.uleb128 0x19
- 628 00f2 3C       		.uleb128 0x3c
- 629 00f3 19       		.uleb128 0x19
- 630 00f4 6E       		.uleb128 0x6e
- 631 00f5 0E       		.uleb128 0xe
- 632 00f6 03       		.uleb128 0x3
- 633 00f7 0E       		.uleb128 0xe
- 634 00f8 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 13
+ 717 0079 02       		.uleb128 0x2
+ 718 007a 18       		.uleb128 0x18
+ 719 007b 00       		.byte	0
+ 720 007c 00       		.byte	0
+ 721 007d 09       		.uleb128 0x9
+ 722 007e 0B       		.uleb128 0xb
+ 723 007f 01       		.byte	0x1
+ 724 0080 11       		.uleb128 0x11
+ 725 0081 01       		.uleb128 0x1
+ 726 0082 12       		.uleb128 0x12
+ 727 0083 06       		.uleb128 0x6
+ 728 0084 00       		.byte	0
+ 729 0085 00       		.byte	0
+ 730 0086 0A       		.uleb128 0xa
+ 731 0087 34       		.uleb128 0x34
+ 732 0088 00       		.byte	0
+ 733 0089 03       		.uleb128 0x3
+ 734 008a 0E       		.uleb128 0xe
+ 735 008b 3A       		.uleb128 0x3a
+ 736 008c 0B       		.uleb128 0xb
+ 737 008d 3B       		.uleb128 0x3b
+ 738 008e 0B       		.uleb128 0xb
+ 739 008f 49       		.uleb128 0x49
+ 740 0090 13       		.uleb128 0x13
+ 741 0091 02       		.uleb128 0x2
+ 742 0092 17       		.uleb128 0x17
+ 743 0093 00       		.byte	0
+ 744 0094 00       		.byte	0
+ 745 0095 0B       		.uleb128 0xb
+ 746 0096 0B       		.uleb128 0xb
+ 747 0097 01       		.byte	0x1
+ 748 0098 55       		.uleb128 0x55
+ 749 0099 17       		.uleb128 0x17
+ 750 009a 01       		.uleb128 0x1
+ 751 009b 13       		.uleb128 0x13
+ 752 009c 00       		.byte	0
+ 753 009d 00       		.byte	0
+ 754 009e 0C       		.uleb128 0xc
+ 755 009f 34       		.uleb128 0x34
+ 756 00a0 00       		.byte	0
+ 757 00a1 03       		.uleb128 0x3
+ 758 00a2 08       		.uleb128 0x8
+ 759 00a3 3A       		.uleb128 0x3a
+ 760 00a4 0B       		.uleb128 0xb
+ 761 00a5 3B       		.uleb128 0x3b
+ 762 00a6 0B       		.uleb128 0xb
+ 763 00a7 49       		.uleb128 0x49
+ 764 00a8 13       		.uleb128 0x13
+ 765 00a9 02       		.uleb128 0x2
+ 766 00aa 17       		.uleb128 0x17
+ 767 00ab 00       		.byte	0
+ 768 00ac 00       		.byte	0
+ 769 00ad 0D       		.uleb128 0xd
+ 770 00ae 898201   		.uleb128 0x4109
+ 771 00b1 01       		.byte	0x1
+ 772 00b2 11       		.uleb128 0x11
+ 773 00b3 01       		.uleb128 0x1
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 16
 
 
- 635 00f9 0B       		.uleb128 0xb
- 636 00fa 3B       		.uleb128 0x3b
- 637 00fb 0B       		.uleb128 0xb
- 638 00fc 00       		.byte	0
- 639 00fd 00       		.byte	0
- 640 00fe 00       		.byte	0
- 641              		.section	.debug_loc,"",%progbits
- 642              	.Ldebug_loc0:
- 643              	.LLST0:
- 644 0000 00000000 		.4byte	.LVL0
- 645 0004 0E000000 		.4byte	.LVL1
- 646 0008 0100     		.2byte	0x1
- 647 000a 50       		.byte	0x50
- 648 000b 0E000000 		.4byte	.LVL1
- 649 000f 3A000000 		.4byte	.LVL4
- 650 0013 0400     		.2byte	0x4
- 651 0015 F3       		.byte	0xf3
- 652 0016 01       		.uleb128 0x1
- 653 0017 50       		.byte	0x50
- 654 0018 9F       		.byte	0x9f
- 655 0019 3A000000 		.4byte	.LVL4
- 656 001d 48000000 		.4byte	.LFE65
- 657 0021 0100     		.2byte	0x1
- 658 0023 50       		.byte	0x50
- 659 0024 00000000 		.4byte	0
- 660 0028 00000000 		.4byte	0
- 661              		.section	.debug_aranges,"",%progbits
- 662 0000 2C000000 		.4byte	0x2c
- 663 0004 0200     		.2byte	0x2
- 664 0006 00000000 		.4byte	.Ldebug_info0
- 665 000a 04       		.byte	0x4
- 666 000b 00       		.byte	0
- 667 000c 0000     		.2byte	0
- 668 000e 0000     		.2byte	0
- 669 0010 00000000 		.4byte	.LFB65
- 670 0014 48000000 		.4byte	.LFE65-.LFB65
- 671 0018 00000000 		.4byte	.LFB63
- 672 001c 20000000 		.4byte	.LFE63-.LFB63
- 673 0020 00000000 		.4byte	.LFB64
- 674 0024 0A000000 		.4byte	.LFE64-.LFB64
- 675 0028 00000000 		.4byte	0
- 676 002c 00000000 		.4byte	0
- 677              		.section	.debug_ranges,"",%progbits
- 678              	.Ldebug_ranges0:
- 679 0000 00000000 		.4byte	.LFB65
- 680 0004 48000000 		.4byte	.LFE65
- 681 0008 00000000 		.4byte	.LFB63
- 682 000c 20000000 		.4byte	.LFE63
- 683 0010 00000000 		.4byte	.LFB64
- 684 0014 0A000000 		.4byte	.LFE64
- 685 0018 00000000 		.4byte	0
- 686 001c 00000000 		.4byte	0
- 687              		.section	.debug_line,"",%progbits
- 688              	.Ldebug_line0:
- 689 0000 BB010000 		.section	.debug_str,"MS",%progbits,1
- 689      02007B01 
- 689      00000201 
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 14
+ 774 00b4 31       		.uleb128 0x31
+ 775 00b5 13       		.uleb128 0x13
+ 776 00b6 00       		.byte	0
+ 777 00b7 00       		.byte	0
+ 778 00b8 0E       		.uleb128 0xe
+ 779 00b9 8A8201   		.uleb128 0x410a
+ 780 00bc 00       		.byte	0
+ 781 00bd 02       		.uleb128 0x2
+ 782 00be 18       		.uleb128 0x18
+ 783 00bf 9142     		.uleb128 0x2111
+ 784 00c1 18       		.uleb128 0x18
+ 785 00c2 00       		.byte	0
+ 786 00c3 00       		.byte	0
+ 787 00c4 0F       		.uleb128 0xf
+ 788 00c5 01       		.uleb128 0x1
+ 789 00c6 01       		.byte	0x1
+ 790 00c7 49       		.uleb128 0x49
+ 791 00c8 13       		.uleb128 0x13
+ 792 00c9 01       		.uleb128 0x1
+ 793 00ca 13       		.uleb128 0x13
+ 794 00cb 00       		.byte	0
+ 795 00cc 00       		.byte	0
+ 796 00cd 10       		.uleb128 0x10
+ 797 00ce 21       		.uleb128 0x21
+ 798 00cf 00       		.byte	0
+ 799 00d0 49       		.uleb128 0x49
+ 800 00d1 13       		.uleb128 0x13
+ 801 00d2 2F       		.uleb128 0x2f
+ 802 00d3 0B       		.uleb128 0xb
+ 803 00d4 00       		.byte	0
+ 804 00d5 00       		.byte	0
+ 805 00d6 11       		.uleb128 0x11
+ 806 00d7 05       		.uleb128 0x5
+ 807 00d8 00       		.byte	0
+ 808 00d9 03       		.uleb128 0x3
+ 809 00da 08       		.uleb128 0x8
+ 810 00db 3A       		.uleb128 0x3a
+ 811 00dc 0B       		.uleb128 0xb
+ 812 00dd 3B       		.uleb128 0x3b
+ 813 00de 0B       		.uleb128 0xb
+ 814 00df 49       		.uleb128 0x49
+ 815 00e0 13       		.uleb128 0x13
+ 816 00e1 02       		.uleb128 0x2
+ 817 00e2 17       		.uleb128 0x17
+ 818 00e3 00       		.byte	0
+ 819 00e4 00       		.byte	0
+ 820 00e5 12       		.uleb128 0x12
+ 821 00e6 898201   		.uleb128 0x4109
+ 822 00e9 00       		.byte	0
+ 823 00ea 11       		.uleb128 0x11
+ 824 00eb 01       		.uleb128 0x1
+ 825 00ec 31       		.uleb128 0x31
+ 826 00ed 13       		.uleb128 0x13
+ 827 00ee 00       		.byte	0
+ 828 00ef 00       		.byte	0
+ 829 00f0 13       		.uleb128 0x13
+ 830 00f1 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 17
 
 
- 689      FB0E0D00 
- 689      01010101 
- 690              	.LASF19:
- 691 0000 72656365 		.ascii	"receiver_timer_handler\000"
- 691      69766572 
- 691      5F74696D 
- 691      65725F68 
- 691      616E646C 
- 692              	.LASF24:
- 693 0017 52585F50 		.ascii	"RX_PIN_Read\000"
- 693      494E5F52 
- 693      65616400 
- 694              	.LASF9:
- 695 0023 5F5F696E 		.ascii	"__int32_t\000"
- 695      7433325F 
- 695      7400
- 696              	.LASF25:
- 697 002d 52585F54 		.ascii	"RX_TIMER_WriteCounter\000"
- 697      494D4552 
- 697      5F577269 
- 697      7465436F 
- 697      756E7465 
- 698              	.LASF11:
- 699 0043 666C6F61 		.ascii	"float\000"
- 699      7400
- 700              	.LASF26:
- 701 0049 52585F54 		.ascii	"RX_TIMER_Start\000"
- 701      494D4552 
- 701      5F537461 
- 701      727400
- 702              	.LASF1:
- 703 0058 756E7369 		.ascii	"unsigned char\000"
- 703      676E6564 
- 703      20636861 
- 703      7200
- 704              	.LASF27:
- 705 0066 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 705      43313120 
- 705      352E342E 
- 705      31203230 
- 705      31363036 
- 706 0099 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 706      20726576 
- 706      6973696F 
- 706      6E203233 
- 706      37373135 
- 707 00cc 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 707      66756E63 
- 707      74696F6E 
- 707      2D736563 
- 707      74696F6E 
- 708              	.LASF29:
- 709 00f4 433A5C55 		.ascii	"C:\\Users\\hallermans\\Documents\\Winter2017\\CE495"
- 709      73657273 
- 709      5C68616C 
- 709      6C65726D 
- 709      616E735C 
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 15
+ 831 00f2 01       		.byte	0x1
+ 832 00f3 3F       		.uleb128 0x3f
+ 833 00f4 19       		.uleb128 0x19
+ 834 00f5 03       		.uleb128 0x3
+ 835 00f6 0E       		.uleb128 0xe
+ 836 00f7 3A       		.uleb128 0x3a
+ 837 00f8 0B       		.uleb128 0xb
+ 838 00f9 3B       		.uleb128 0x3b
+ 839 00fa 0B       		.uleb128 0xb
+ 840 00fb 11       		.uleb128 0x11
+ 841 00fc 01       		.uleb128 0x1
+ 842 00fd 12       		.uleb128 0x12
+ 843 00fe 06       		.uleb128 0x6
+ 844 00ff 40       		.uleb128 0x40
+ 845 0100 18       		.uleb128 0x18
+ 846 0101 9742     		.uleb128 0x2117
+ 847 0103 19       		.uleb128 0x19
+ 848 0104 01       		.uleb128 0x1
+ 849 0105 13       		.uleb128 0x13
+ 850 0106 00       		.byte	0
+ 851 0107 00       		.byte	0
+ 852 0108 14       		.uleb128 0x14
+ 853 0109 898201   		.uleb128 0x4109
+ 854 010c 01       		.byte	0x1
+ 855 010d 11       		.uleb128 0x11
+ 856 010e 01       		.uleb128 0x1
+ 857 010f 31       		.uleb128 0x31
+ 858 0110 13       		.uleb128 0x13
+ 859 0111 01       		.uleb128 0x1
+ 860 0112 13       		.uleb128 0x13
+ 861 0113 00       		.byte	0
+ 862 0114 00       		.byte	0
+ 863 0115 15       		.uleb128 0x15
+ 864 0116 34       		.uleb128 0x34
+ 865 0117 00       		.byte	0
+ 866 0118 03       		.uleb128 0x3
+ 867 0119 0E       		.uleb128 0xe
+ 868 011a 3A       		.uleb128 0x3a
+ 869 011b 0B       		.uleb128 0xb
+ 870 011c 3B       		.uleb128 0x3b
+ 871 011d 05       		.uleb128 0x5
+ 872 011e 49       		.uleb128 0x49
+ 873 011f 13       		.uleb128 0x13
+ 874 0120 3F       		.uleb128 0x3f
+ 875 0121 19       		.uleb128 0x19
+ 876 0122 3C       		.uleb128 0x3c
+ 877 0123 19       		.uleb128 0x19
+ 878 0124 00       		.byte	0
+ 879 0125 00       		.byte	0
+ 880 0126 16       		.uleb128 0x16
+ 881 0127 35       		.uleb128 0x35
+ 882 0128 00       		.byte	0
+ 883 0129 49       		.uleb128 0x49
+ 884 012a 13       		.uleb128 0x13
+ 885 012b 00       		.byte	0
+ 886 012c 00       		.byte	0
+ 887 012d 17       		.uleb128 0x17
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 18
 
 
- 710 0122 305C6E65 		.ascii	"0\\network.cydsn\000"
- 710      74776F72 
- 710      6B2E6379 
- 710      64736E00 
- 711              	.LASF5:
- 712 0132 6C6F6E67 		.ascii	"long unsigned int\000"
- 712      20756E73 
- 712      69676E65 
- 712      6420696E 
- 712      7400
- 713              	.LASF3:
- 714 0144 73686F72 		.ascii	"short unsigned int\000"
- 714      7420756E 
- 714      7369676E 
- 714      65642069 
- 714      6E7400
- 715              	.LASF22:
- 716 0157 52585F54 		.ascii	"RX_TIMER_Stop\000"
- 716      494D4552 
- 716      5F53746F 
- 716      7000
- 717              	.LASF12:
- 718 0165 646F7562 		.ascii	"double\000"
- 718      6C6500
- 719              	.LASF30:
- 720 016c 72656365 		.ascii	"receiveBit\000"
- 720      69766542 
- 720      697400
- 721              	.LASF23:
- 722 0177 55534255 		.ascii	"USBUART_PutChar\000"
- 722      4152545F 
- 722      50757443 
- 722      68617200 
- 723              	.LASF20:
- 724 0187 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 724      52784275 
- 724      66666572 
- 724      00
- 725              	.LASF8:
- 726 0194 756E7369 		.ascii	"unsigned int\000"
- 726      676E6564 
- 726      20696E74 
- 726      00
- 727              	.LASF7:
- 728 01a1 6C6F6E67 		.ascii	"long long unsigned int\000"
- 728      206C6F6E 
- 728      6720756E 
- 728      7369676E 
- 728      65642069 
- 729              	.LASF16:
- 730 01b8 63757272 		.ascii	"currentBit\000"
- 730      656E7442 
- 730      697400
- 731              	.LASF10:
- 732 01c3 696E7433 		.ascii	"int32_t\000"
- 732      325F7400 
- 733              	.LASF15:
-ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cc1USfec.s 			page 16
+ 888 012e 34       		.uleb128 0x34
+ 889 012f 00       		.byte	0
+ 890 0130 03       		.uleb128 0x3
+ 891 0131 0E       		.uleb128 0xe
+ 892 0132 3A       		.uleb128 0x3a
+ 893 0133 0B       		.uleb128 0xb
+ 894 0134 3B       		.uleb128 0x3b
+ 895 0135 0B       		.uleb128 0xb
+ 896 0136 49       		.uleb128 0x49
+ 897 0137 13       		.uleb128 0x13
+ 898 0138 3F       		.uleb128 0x3f
+ 899 0139 19       		.uleb128 0x19
+ 900 013a 3C       		.uleb128 0x3c
+ 901 013b 19       		.uleb128 0x19
+ 902 013c 00       		.byte	0
+ 903 013d 00       		.byte	0
+ 904 013e 18       		.uleb128 0x18
+ 905 013f 2E       		.uleb128 0x2e
+ 906 0140 00       		.byte	0
+ 907 0141 3F       		.uleb128 0x3f
+ 908 0142 19       		.uleb128 0x19
+ 909 0143 3C       		.uleb128 0x3c
+ 910 0144 19       		.uleb128 0x19
+ 911 0145 6E       		.uleb128 0x6e
+ 912 0146 0E       		.uleb128 0xe
+ 913 0147 03       		.uleb128 0x3
+ 914 0148 0E       		.uleb128 0xe
+ 915 0149 3A       		.uleb128 0x3a
+ 916 014a 0B       		.uleb128 0xb
+ 917 014b 3B       		.uleb128 0x3b
+ 918 014c 0B       		.uleb128 0xb
+ 919 014d 00       		.byte	0
+ 920 014e 00       		.byte	0
+ 921 014f 00       		.byte	0
+ 922              		.section	.debug_loc,"",%progbits
+ 923              	.Ldebug_loc0:
+ 924              	.LLST0:
+ 925 0000 00000000 		.4byte	.LVL0
+ 926 0004 3A000000 		.4byte	.LVL1
+ 927 0008 0100     		.2byte	0x1
+ 928 000a 50       		.byte	0x50
+ 929 000b 3A000000 		.4byte	.LVL1
+ 930 000f 48000000 		.4byte	.LVL3
+ 931 0013 0B00     		.2byte	0xb
+ 932 0015 71       		.byte	0x71
+ 933 0016 00       		.sleb128 0
+ 934 0017 03       		.byte	0x3
+ 935 0018 00000000 		.4byte	pos.6076
+ 936 001c 06       		.byte	0x6
+ 937 001d 22       		.byte	0x22
+ 938 001e 23       		.byte	0x23
+ 939 001f 04       		.uleb128 0x4
+ 940 0020 48000000 		.4byte	.LVL3
+ 941 0024 58000000 		.4byte	.LVL5
+ 942 0028 0400     		.2byte	0x4
+ 943 002a F3       		.byte	0xf3
+ 944 002b 01       		.uleb128 0x1
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 19
 
 
- 734 01cb 73697A65 		.ascii	"sizetype\000"
- 734      74797065 
- 734      00
- 735              	.LASF6:
- 736 01d4 6C6F6E67 		.ascii	"long long int\000"
- 736      206C6F6E 
- 736      6720696E 
- 736      7400
- 737              	.LASF13:
- 738 01e2 63686172 		.ascii	"char\000"
- 738      00
- 739              	.LASF18:
- 740 01e7 72656365 		.ascii	"receiver_rx_handler\000"
- 740      69766572 
- 740      5F72785F 
- 740      68616E64 
- 740      6C657200 
- 741              	.LASF2:
- 742 01fb 73686F72 		.ascii	"short int\000"
- 742      7420696E 
- 742      7400
- 743              	.LASF21:
- 744 0205 7472616E 		.ascii	"transmitting\000"
- 744      736D6974 
- 744      74696E67 
- 744      00
- 745              	.LASF28:
- 746 0212 72656365 		.ascii	"receiver.c\000"
- 746      69766572 
- 746      2E6300
- 747              	.LASF4:
- 748 021d 6C6F6E67 		.ascii	"long int\000"
- 748      20696E74 
- 748      00
- 749              	.LASF14:
- 750 0226 6C6F6E67 		.ascii	"long double\000"
- 750      20646F75 
- 750      626C6500 
- 751              	.LASF0:
- 752 0232 7369676E 		.ascii	"signed char\000"
- 752      65642063 
- 752      68617200 
- 753              	.LASF17:
- 754 023e 5F426F6F 		.ascii	"_Bool\000"
- 754      6C00
- 755              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 945 002c 50       		.byte	0x50
+ 946 002d 9F       		.byte	0x9f
+ 947 002e 58000000 		.4byte	.LVL5
+ 948 0032 5A000000 		.4byte	.LVL6
+ 949 0036 0B00     		.2byte	0xb
+ 950 0038 71       		.byte	0x71
+ 951 0039 00       		.sleb128 0
+ 952 003a 03       		.byte	0x3
+ 953 003b 00000000 		.4byte	pos.6076
+ 954 003f 06       		.byte	0x6
+ 955 0040 22       		.byte	0x22
+ 956 0041 23       		.byte	0x23
+ 957 0042 04       		.uleb128 0x4
+ 958 0043 5A000000 		.4byte	.LVL6
+ 959 0047 78000000 		.4byte	.LFE66
+ 960 004b 0400     		.2byte	0x4
+ 961 004d F3       		.byte	0xf3
+ 962 004e 01       		.uleb128 0x1
+ 963 004f 50       		.byte	0x50
+ 964 0050 9F       		.byte	0x9f
+ 965 0051 00000000 		.4byte	0
+ 966 0055 00000000 		.4byte	0
+ 967              	.LLST1:
+ 968 0059 3E000000 		.4byte	.LVL2
+ 969 005d 6C000000 		.4byte	.LVL7
+ 970 0061 0100     		.2byte	0x1
+ 971 0063 50       		.byte	0x50
+ 972 0064 6C000000 		.4byte	.LVL7
+ 973 0068 6F000000 		.4byte	.LVL8-1
+ 974 006c 0900     		.2byte	0x9
+ 975 006e 73       		.byte	0x73
+ 976 006f 00       		.sleb128 0
+ 977 0070 03       		.byte	0x3
+ 978 0071 07000000 		.4byte	.LANCHOR0+7
+ 979 0075 1C       		.byte	0x1c
+ 980 0076 9F       		.byte	0x9f
+ 981 0077 00000000 		.4byte	0
+ 982 007b 00000000 		.4byte	0
+ 983              	.LLST2:
+ 984 007f 48000000 		.4byte	.LVL3
+ 985 0083 58000000 		.4byte	.LVL5
+ 986 0087 0100     		.2byte	0x1
+ 987 0089 52       		.byte	0x52
+ 988 008a 5A000000 		.4byte	.LVL6
+ 989 008e 6F000000 		.4byte	.LVL8-1
+ 990 0092 0100     		.2byte	0x1
+ 991 0094 52       		.byte	0x52
+ 992 0095 00000000 		.4byte	0
+ 993 0099 00000000 		.4byte	0
+ 994              	.LLST3:
+ 995 009d 00000000 		.4byte	.LVL9
+ 996 00a1 0E000000 		.4byte	.LVL10
+ 997 00a5 0100     		.2byte	0x1
+ 998 00a7 50       		.byte	0x50
+ 999 00a8 0E000000 		.4byte	.LVL10
+ 1000 00ac 3E000000 		.4byte	.LVL13
+ 1001 00b0 0400     		.2byte	0x4
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 20
+
+
+ 1002 00b2 F3       		.byte	0xf3
+ 1003 00b3 01       		.uleb128 0x1
+ 1004 00b4 50       		.byte	0x50
+ 1005 00b5 9F       		.byte	0x9f
+ 1006 00b6 3E000000 		.4byte	.LVL13
+ 1007 00ba 4C000000 		.4byte	.LFE65
+ 1008 00be 0100     		.2byte	0x1
+ 1009 00c0 50       		.byte	0x50
+ 1010 00c1 00000000 		.4byte	0
+ 1011 00c5 00000000 		.4byte	0
+ 1012              		.section	.debug_aranges,"",%progbits
+ 1013 0000 34000000 		.4byte	0x34
+ 1014 0004 0200     		.2byte	0x2
+ 1015 0006 00000000 		.4byte	.Ldebug_info0
+ 1016 000a 04       		.byte	0x4
+ 1017 000b 00       		.byte	0
+ 1018 000c 0000     		.2byte	0
+ 1019 000e 0000     		.2byte	0
+ 1020 0010 00000000 		.4byte	.LFB66
+ 1021 0014 78000000 		.4byte	.LFE66-.LFB66
+ 1022 0018 00000000 		.4byte	.LFB65
+ 1023 001c 4C000000 		.4byte	.LFE65-.LFB65
+ 1024 0020 00000000 		.4byte	.LFB63
+ 1025 0024 20000000 		.4byte	.LFE63-.LFB63
+ 1026 0028 00000000 		.4byte	.LFB64
+ 1027 002c 0A000000 		.4byte	.LFE64-.LFB64
+ 1028 0030 00000000 		.4byte	0
+ 1029 0034 00000000 		.4byte	0
+ 1030              		.section	.debug_ranges,"",%progbits
+ 1031              	.Ldebug_ranges0:
+ 1032 0000 48000000 		.4byte	.LBB3
+ 1033 0004 58000000 		.4byte	.LBE3
+ 1034 0008 5A000000 		.4byte	.LBB4
+ 1035 000c 60000000 		.4byte	.LBE4
+ 1036 0010 00000000 		.4byte	0
+ 1037 0014 00000000 		.4byte	0
+ 1038 0018 00000000 		.4byte	.LFB66
+ 1039 001c 78000000 		.4byte	.LFE66
+ 1040 0020 00000000 		.4byte	.LFB65
+ 1041 0024 4C000000 		.4byte	.LFE65
+ 1042 0028 00000000 		.4byte	.LFB63
+ 1043 002c 20000000 		.4byte	.LFE63
+ 1044 0030 00000000 		.4byte	.LFB64
+ 1045 0034 0A000000 		.4byte	.LFE64
+ 1046 0038 00000000 		.4byte	0
+ 1047 003c 00000000 		.4byte	0
+ 1048              		.section	.debug_line,"",%progbits
+ 1049              	.Ldebug_line0:
+ 1050 0000 F7010000 		.section	.debug_str,"MS",%progbits,1
+ 1050      02007B01 
+ 1050      00000201 
+ 1050      FB0E0D00 
+ 1050      01010101 
+ 1051              	.LASF18:
+ 1052 0000 6D657373 		.ascii	"message\000"
+ 1052      61676500 
+ 1053              	.LASF4:
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 21
+
+
+ 1054 0008 5F5F7569 		.ascii	"__uint8_t\000"
+ 1054      6E74385F 
+ 1054      7400
+ 1055              	.LASF26:
+ 1056 0012 72656365 		.ascii	"receiver_timer_handler\000"
+ 1056      69766572 
+ 1056      5F74696D 
+ 1056      65725F68 
+ 1056      616E646C 
+ 1057              	.LASF31:
+ 1058 0029 52585F50 		.ascii	"RX_PIN_Read\000"
+ 1058      494E5F52 
+ 1058      65616400 
+ 1059              	.LASF5:
+ 1060 0035 5F5F696E 		.ascii	"__int32_t\000"
+ 1060      7433325F 
+ 1060      7400
+ 1061              	.LASF32:
+ 1062 003f 52585F54 		.ascii	"RX_TIMER_WriteCounter\000"
+ 1062      494D4552 
+ 1062      5F577269 
+ 1062      7465436F 
+ 1062      756E7465 
+ 1063              	.LASF29:
+ 1064 0055 55534255 		.ascii	"USBUART_PutString\000"
+ 1064      4152545F 
+ 1064      50757453 
+ 1064      7472696E 
+ 1064      6700
+ 1065              	.LASF22:
+ 1066 0067 62797465 		.ascii	"byte\000"
+ 1066      00
+ 1067              	.LASF13:
+ 1068 006c 666C6F61 		.ascii	"float\000"
+ 1068      7400
+ 1069              	.LASF33:
+ 1070 0072 52585F54 		.ascii	"RX_TIMER_Start\000"
+ 1070      494D4552 
+ 1070      5F537461 
+ 1070      727400
+ 1071              	.LASF1:
+ 1072 0081 756E7369 		.ascii	"unsigned char\000"
+ 1072      676E6564 
+ 1072      20636861 
+ 1072      7200
+ 1073              	.LASF34:
+ 1074 008f 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1074      43313120 
+ 1074      352E342E 
+ 1074      31203230 
+ 1074      31363036 
+ 1075 00c2 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1075      20726576 
+ 1075      6973696F 
+ 1075      6E203233 
+ 1075      37373135 
+ 1076 00f5 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 22
+
+
+ 1076      66756E63 
+ 1076      74696F6E 
+ 1076      2D736563 
+ 1076      74696F6E 
+ 1077              	.LASF36:
+ 1078 011d 433A5C55 		.ascii	"C:\\Users\\hallermans\\Documents\\Winter2017\\CE495"
+ 1078      73657273 
+ 1078      5C68616C 
+ 1078      6C65726D 
+ 1078      616E735C 
+ 1079 014b 305C6E65 		.ascii	"0\\network.cydsn\000"
+ 1079      74776F72 
+ 1079      6B2E6379 
+ 1079      64736E00 
+ 1080              	.LASF7:
+ 1081 015b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1081      20756E73 
+ 1081      69676E65 
+ 1081      6420696E 
+ 1081      7400
+ 1082              	.LASF3:
+ 1083 016d 73686F72 		.ascii	"short unsigned int\000"
+ 1083      7420756E 
+ 1083      7369676E 
+ 1083      65642069 
+ 1083      6E7400
+ 1084              	.LASF30:
+ 1085 0180 52585F54 		.ascii	"RX_TIMER_Stop\000"
+ 1085      494D4552 
+ 1085      5F53746F 
+ 1085      7000
+ 1086              	.LASF14:
+ 1087 018e 646F7562 		.ascii	"double\000"
+ 1087      6C6500
+ 1088              	.LASF21:
+ 1089 0195 72656365 		.ascii	"receiveBit\000"
+ 1089      69766542 
+ 1089      697400
+ 1090              	.LASF27:
+ 1091 01a0 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1091      52784275 
+ 1091      66666572 
+ 1091      00
+ 1092              	.LASF20:
+ 1093 01ad 72656365 		.ascii	"receiveByte\000"
+ 1093      69766542 
+ 1093      79746500 
+ 1094              	.LASF10:
+ 1095 01b9 756E7369 		.ascii	"unsigned int\000"
+ 1095      676E6564 
+ 1095      20696E74 
+ 1095      00
+ 1096              	.LASF9:
+ 1097 01c6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1097      206C6F6E 
+ 1097      6720756E 
+ 1097      7369676E 
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 23
+
+
+ 1097      65642069 
+ 1098              	.LASF11:
+ 1099 01dd 75696E74 		.ascii	"uint8_t\000"
+ 1099      385F7400 
+ 1100              	.LASF23:
+ 1101 01e5 63757272 		.ascii	"currentBit\000"
+ 1101      656E7442 
+ 1101      697400
+ 1102              	.LASF12:
+ 1103 01f0 696E7433 		.ascii	"int32_t\000"
+ 1103      325F7400 
+ 1104              	.LASF17:
+ 1105 01f8 73697A65 		.ascii	"sizetype\000"
+ 1105      74797065 
+ 1105      00
+ 1106              	.LASF8:
+ 1107 0201 6C6F6E67 		.ascii	"long long int\000"
+ 1107      206C6F6E 
+ 1107      6720696E 
+ 1107      7400
+ 1108              	.LASF15:
+ 1109 020f 63686172 		.ascii	"char\000"
+ 1109      00
+ 1110              	.LASF25:
+ 1111 0214 72656365 		.ascii	"receiver_rx_handler\000"
+ 1111      69766572 
+ 1111      5F72785F 
+ 1111      68616E64 
+ 1111      6C657200 
+ 1112              	.LASF2:
+ 1113 0228 73686F72 		.ascii	"short int\000"
+ 1113      7420696E 
+ 1113      7400
+ 1114              	.LASF28:
+ 1115 0232 7472616E 		.ascii	"transmitting\000"
+ 1115      736D6974 
+ 1115      74696E67 
+ 1115      00
+ 1116              	.LASF35:
+ 1117 023f 72656365 		.ascii	"receiver.c\000"
+ 1117      69766572 
+ 1117      2E6300
+ 1118              	.LASF6:
+ 1119 024a 6C6F6E67 		.ascii	"long int\000"
+ 1119      20696E74 
+ 1119      00
+ 1120              	.LASF16:
+ 1121 0253 6C6F6E67 		.ascii	"long double\000"
+ 1121      20646F75 
+ 1121      626C6500 
+ 1122              	.LASF0:
+ 1123 025f 7369676E 		.ascii	"signed char\000"
+ 1123      65642063 
+ 1123      68617200 
+ 1124              	.LASF19:
+ 1125 026b 74657874 		.ascii	"textSize\000"
+ 1125      53697A65 
+ARM GAS  C:\Users\HALLER~1\AppData\Local\Temp\cclrKZgY.s 			page 24
+
+
+ 1125      00
+ 1126              	.LASF24:
+ 1127 0274 5F426F6F 		.ascii	"_Bool\000"
+ 1127      6C00
+ 1128              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

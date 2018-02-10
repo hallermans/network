@@ -16,6 +16,7 @@
 #include "receiver.h"
 
 void receiveBit(bool bit);
+void receiveByte(uint8_t byte);
 
 void receiver_rx_handler() {
     if (RX_PIN_Read()==0) return; //receiver only cares about rising edge
@@ -38,9 +39,28 @@ void receiveBit(bool bit) {
     currentBit--;
     if (currentBit<0) {
       RX_TIMER_Stop();
-      USBUART_PutChar(c & 0x7F);
+      receiveByte(c);
       currentBit = 7;
       c = '\0';
+    }
+}
+
+void receiveByte(uint8_t byte) {
+    static uint8_t message[52]; //7 header + 44 message + 1 CRC
+    static int pos = 0;
+    
+    message[pos++] = byte;
+
+    if (pos==1 && message[0]!=0x80) pos = 0;
+    else if (pos==2 && message[1]!=0x81) pos = 0;
+    else if (pos>=8) {
+        int textSize = message[4] & 0x7F;
+        if (pos==textSize+8) {
+            for (int i=7; i<textSize+7; i++) message[i] &= 0x7F;
+            message[textSize+7] = '\0';
+            USBUART_PutString((char *)(message+7));
+            pos = 0;
+        }
     }
 }
 
