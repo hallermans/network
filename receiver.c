@@ -11,12 +11,14 @@
 */
 
 #include <stdbool.h>
+#include <stdio.h>
 #include "project.h"
 #include "globals.h"
 #include "receiver.h"
 
 void receiveBit(bool bit);
 void receiveByte(uint8_t byte);
+void printMessage(int source, char *text);
 
 void receiver_rx_handler() {
     if (RX_PIN_Read()==0) return; //receiver only cares about rising edge
@@ -63,10 +65,16 @@ void receiveByte(uint8_t byte) {
             for (int i=0; i<textSize; i++) text[i] = message[i+7] & 0x7F;
             text[textSize] = '\0';
             
-            if (destination==myAddress) USBUART_PutString(text);
+            if (destination==myAddress) printMessage(source, text);
             pos = 0;
         }
     }
+}
+
+void printMessage(int source, char *text) {
+    char output[100];
+    sprintf(output, "Message received from 0x%02x: %s\r\n", source, text);
+    USBUART_PutString(output);
 }
 
 /* [] END OF FILE */
