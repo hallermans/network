@@ -16,8 +16,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-void addHeaderAndCrc(uint8_t *message, int textSize);
-bool writeMessage(uint8_t *message, int size);
+void createAndSendMessage(char *text, int textSize, int destinationAddress);
+void sendMessage(uint8_t *message, int size);
 
 enum states {IDLE, BUSY_HIGH, BUSY_LOW, COLLISION};
 enum states currentState = IDLE;
@@ -66,8 +66,7 @@ void transmitter_timer_handler() {
 }
 
 void transmitter_uart_handler(char c) {
-    static uint8_t message[52]; //7 header + 44 message + 1 CRC
-    static char *text = (char *)(message + 7);
+    static char text[44];
     static int textSize = 0;
     
     if (c!='\r') {
@@ -76,16 +75,15 @@ void transmitter_uart_handler(char c) {
     }
     else {
         USBUART_PutString("\r\n");
-        addHeaderAndCrc(message, textSize);
-        transmitting = true;
-        while (writeMessage(message, textSize + 8)==false) CyDelay(rand()%1000);
-        transmitting = false;
-		textSize = 0;
+        createAndSendMessage(text, textSize, 0x08);
+        textSize = 0;
     }
 }
 
-void addHeaderAndCrc(uint8_t *message, int textSize) {
+void createAndSendMessage(char *text, int textSize, int destinationAddress) {
+    uint8_t message[52]; //7 header + 44 message + 1 CRC
     int pos = 0;
+    
     message[pos++] = 0x80; //Start of header
     message[pos++] = 0x81; //Version number
     message[pos++] = myAddress;
@@ -93,31 +91,41 @@ void addHeaderAndCrc(uint8_t *message, int textSize) {
     message[pos++] = textSize;
     message[pos++] = 0x80; //CRCs are not used
     message[pos++] = 0xF7; //Header CRC is not used
-    
-    pos+=textSize;
+    for (int i = 0; i<textSize; i++) message[pos++] = text[i];
     message[pos++] = 0xF7; //Message CRC is not used
+    
+    sendMessage(message, textSize+8);
 }
 
-
-//Returns true if succesful, false if collision
-bool writeMessage(uint8_t *message, int size) {
-    while (currentState != IDLE);
+void sendMessage(uint8_t *message, int size) {
+    while (currentState!=IDLE);
     collisionOccured = false;
-    
-    for (int i = 0; i<size; i++) {
-        uint8 c = message[i] | 0x80; //MSB is always high
-        
-        for (int b = 7; b>=0; b--) {
-            if (collisionOccured) return false;
+    transmitting = true;
+    while (true) {
+        for (int i = 0; i<size; i++) {
+            uint8 c = message[i] | 0x80; //MSB is always high
             
-            TX_PIN_Write((c>>b) & 0x01);
-            CyDelayUs(500);
-            TX_PIN_Write(0);
-            CyDelayUs(500);
+            for (int b = 7; b>=0; b--) {
+                TX_PIN_Write((c>>b) & 0x01);
+                CyDelayUs(500);
+                TX_PIN_Write(0);
+                CyDelayUs(500);
+                
+                if (collisionOccured) break;
+            }
+            
+            if (collisionOccured) break;
         }
+        
+        if (collisionOccured) {
+            CyDelay(rand()%1000);
+            while (currentState!=IDLE);
+            collisionOccured = false;
+        }
+        else break;
     }
     
-    return true;
+    transmitting = false;
 }
 
 /* [] END OF FILE */

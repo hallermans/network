@@ -17,7 +17,6 @@
 
 extern bool transmitting;
 extern uint8_t myAddress;
-extern uint8_t destinationAddress;
 
 #endif
 /* [] END OF FILE */
