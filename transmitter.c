@@ -66,17 +66,35 @@ void transmitter_timer_handler() {
 }
 
 void transmitter_uart_handler(char c) {
+    static bool gettingDestination = true; //true while getting destination address, false while getting message
+    static int destination;
     static char text[44];
     static int textSize = 0;
     
-    if (c!='\r') {
-        USBUART_PutChar(c);
-        text[textSize++] = c;
+    if (gettingDestination) {
+        if (c!='\r') {
+            USBUART_PutChar(c);
+            text[textSize++] = c;
+        }
+        else {
+            USBUART_PutString("\r\nEnter Message: ");
+            text[textSize] = '\0';
+            destination = atoi(text);
+            textSize = 0;
+            gettingDestination = false;
+        }
     }
     else {
-        USBUART_PutString("\r\n");
-        createAndSendMessage(text, textSize, 0x08);
-        textSize = 0;
+        if (c!='\r') {
+            USBUART_PutChar(c);
+            text[textSize++] = c;
+        }
+        else {
+            USBUART_PutString("\r\nDestination: ");
+            createAndSendMessage(text, textSize, destination);
+            textSize = 0;
+            gettingDestination = true;
+        }
     }
 }
 

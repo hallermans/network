@@ -65,7 +65,7 @@ void receiveByte(uint8_t byte) {
             for (int i=0; i<textSize; i++) text[i] = message[i+7] & 0x7F;
             text[textSize] = '\0';
             
-            if (destination==myAddress) printMessage(source, text);
+            if (destination==myAddress || destination==0) printMessage(source, text);
             pos = 0;
         }
     }

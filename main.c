@@ -54,7 +54,7 @@ int main(void)
     USBUART_Start(0, USBUART_5V_OPERATION);
     while (USBUART_GetConfiguration()==0);
     USBUART_CDC_Init();
-    USBUART_PutString("Hello World\r\n");
+    USBUART_PutString("Hello World\r\nDestination: ");
 
     for(;;)
     {
